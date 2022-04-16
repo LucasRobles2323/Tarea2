@@ -1,10 +1,10 @@
-#include "list.h"
 #include <ctype.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "hashmap.h"
+#include "list.h"
+#include "Map.h"
 
 //------------------STRUCT-------------------------//
 
@@ -12,8 +12,8 @@ typedef struct {
 	char *nombre;
 	char *tipo;
 	char *marca;
-	int stock;
-	int precioIndividual;
+	unsigned int stock;
+	unsigned int precioIndividual;
 } Producto;
 
 typedef struct {
@@ -29,15 +29,7 @@ typedef struct {
 	int precioPagar;
 } Carrito;
 
-
 //------------------FUNCIONES-------------------------//
-
-
-/*------- Limpiar pantalla al ejecutarse -------*/
-void cleanScreen() { // Limpia la pantalla al ejecutarse en el programa
-	printf("\e[1;1H\e[2J");
-}
-//-----------------------------------------//
 
 /*------- Copiar string en un nuevo espacio de memoria -------*/
 char * _strdup(const char * str) {
@@ -47,7 +39,44 @@ char * _strdup(const char * str) {
 }
 //-----------------------------------------//
 
-/*-------  -------*/
+/*
+  función para comparar claves de tipo string
+  retorna 1 si son iguales
+*/
+int is_equal_string(void * key1, void * key2) {
+    if(strcmp((char*)key1, (char*)key2)==0) return 1;
+    return 0;
+}
+
+/*
+  función para comparar claves de tipo string
+  retorna 1 si son key1<key2
+*/
+int lower_than_string(void * key1, void * key2) {
+    if(strcmp((char*)key1, (char*)key2) < 0) return 1;
+    return 0;
+}
+
+/*
+  función para comparar claves de tipo int
+  retorna 1 si son iguales
+*/
+int is_equal_int(void * key1, void * key2) {
+    printf("%d\n\n", key2);
+    if(*(int*)key1 == *(int*)key2) return 1;
+    return 0;
+}
+
+/*
+  función para comparar claves de tipo int
+  retorna 1 si son key1<key2
+*/
+int lower_than_int(void * key1, void * key2) {
+    if(*(int*)key1 < *(int*)key2) return 1;
+    return 0;
+}
+
+/*------- Leer Archivo -------*/
 char *get_csv_field(char *tmp, int k) {
 	int open_mark = 0; //Variable que guardara si hay comillas abiertas
 	char *ret = (char *)malloc(100 * sizeof(char)); //Cadena de retorno
@@ -64,7 +93,7 @@ char *get_csv_field(char *tmp, int k) {
 			i++;
 			continue;
 		}
-
+		
 		if (open_mark || tmp[i] != ',') { 
 			//Comprueba si estan las comillas abiertas o si tmp[i] no es una coma
 			
@@ -94,6 +123,92 @@ char *get_csv_field(char *tmp, int k) {
 
 	return NULL;
 }
+
+Producto *crearProducto(char *nombre, char *tipo, char *marca, int stock, int precio) {
+    // Guarda los datos recibidos en una struct de cancion con lo que corresponde y retorna la cancion 
+
+	Producto *new = (Producto *)malloc(sizeof(Producto));
+	new->nombre = strdup(nombre);
+	new->tipo = strdup(tipo);
+	new->marca =  strdup(marca);
+	new->stock = (unsigned int)stock;
+	new->precioIndividual = (unsigned int)precio;
+
+	return new;
+}
+
+int leerArchivoCanciones(char *nombreArchivo, Map* Nombre)
+{ // Abre un archivo especifico y guarda sus datos
+    FILE *F = fopen(nombreArchivo, "r"); // Abre el archivo con el nombre recibido en modo lectura
+    
+	if (!F){ return 1;}// Si no existe el archivo, cierra el programa
+	
+	Producto *product;
+	char linea[1024]; // Cadena de caracter para guardar una linea del archivo
+
+	char *nombre, *tipo, *marca;
+	int stock;
+	int precioIndividual;
+
+	while (fgets(linea, 1023, F) != NULL) { 
+        // Recorre el archivo leyendo linea por linea
+        // guardando los datos de cada linea en listas
+		
+        // Separa los datos de la linea leida y los guarda en variables correspondientes
+        nombre = get_csv_field(linea, 0);
+		marca = get_csv_field(linea, 1);
+		tipo = get_csv_field(linea, 2);
+		stock = atoi(get_csv_field(linea, 3));
+		precioIndividual = atoi(get_csv_field(linea, 4));
+
+		// Se crea el producto con las variables leidas de la string 'linea'
+		product = crearProducto(nombre, tipo, marca, stock, precioIndividual);
+		
+		if(searchMap(Nombre, product->nombre) == NULL){
+			insertMap(Nombre, product->nombre, product);
+		}
+		else{
+			Producto* cambiarStock = searchMap(Nombre, product->nombre);
+			cambiarStock->stock += product->stock;
+		}
+	}
+	
+	fclose(F);// Se cierra el archivo
+	return 0;
+}
+//-----------------------------------------//
+
+/*------- Guardar Productos en Mapa -------*/
+List *crearLista(Producto *Save){
+	List *new = createList();
+	pushBack(new, Save);
+	return new;
+}
+
+void crearMapasFaltantes(Map* general, Map* type, Map* brand){
+	Producto *save = firstMap(general);
+	List *newList;
+	while(save != NULL){
+		if(searchMap(type, save->tipo) == NULL){
+			newList = crearLista(save);
+			insertMap(type, save->tipo, newList);
+		}
+		else{
+			newList = searchMap(type, save->tipo);
+			pushBack(newList, save);
+		}
+
+		if(searchMap(brand, save->marca) == NULL){
+			newList = crearLista(save);
+			insertMap(brand, save->marca, newList);
+		}
+		else{
+			newList = searchMap(brand, save->marca);
+			pushBack(newList, save);
+		}
+		save = nextMap(general);
+	}
+}
 //-----------------------------------------//
 
 /*-------  -------*/
@@ -108,36 +223,40 @@ char *get_csv_field(char *tmp, int k) {
 /*-------  -------*/
 //-----------------------------------------//
 
-/*-------  -------*/
-//-----------------------------------------//
-
-/*-------  -------*/
-//-----------------------------------------//
-
-/*-------  -------*/
+/*------- Imprimir Producto -------*/
+void imprimirProducto(Producto* dato){
+	printf("Nombre: %s\n", dato->nombre);
+	printf("  Tipo: %s\n", dato->tipo);
+	printf(" Marca: %s\n", dato->marca);
+	printf(" Stock: %u\n", dato->stock);
+	printf("Precio: %u\n", dato->precioIndividual);
+}
 //-----------------------------------------//
 
 
 //------------------MAIN-------------------------//
 
 int main() {
-	HashMap *productosTipo, 
-	        *productosNombre, 
-			*productosMarca;
-	HashMap *Carritos;
-	
+	Map *nombre, *tipo, *marca, *carritos;
+	nombre = createMap(is_equal_string);
+    setSortFunction(nombre,lower_than_string);
+	tipo = createMap(is_equal_string);
+    setSortFunction(tipo,lower_than_string);
+	marca = createMap(is_equal_string);
+    setSortFunction(marca,lower_than_string);
+	carritos = createMap(is_equal_string);
+    setSortFunction(carritos,lower_than_string);
+
 	int option = 0; //Variable que decide la opcion del menun seleccionada
 
-	cleanScreen();
-	printf("Antes de empezar, siempre que se le pida datos, evite usar: \n");
+	printf("\n\nAntes de empezar, siempre que se le pida datos, evite usar: \n");
 	printf(" Vocales con tilde, procure no poner nunca tilde \n");
 	printf(" La letra '%c', de ser necesaria utilice 'ny' \n", 164);
 	printf(" El simbolo de inicio de pregunta %c, simplemente no lo ponga \n", 168);
 	printf("\nPresione ENTER si comprendio que es lo que no pude usar  ");
 	getchar();
 
-	while (option != 11) { // Muestra el menu y actua segun la opcion seleccionada 
-		cleanScreen();
+	while (option != 12) { // Muestra el menu y actua segun la opcion seleccionada 
 		printf(" 1.- Importar productos\n");
 		printf(" 2.- Exportar productos\n");
 		printf(" 3.- Agregar producto\n");
@@ -155,80 +274,136 @@ int main() {
 		getchar(); /* Importante poner getchar luego de cada scanf pues de lo 
         contrario un futuro scanf leera un '\n' y no recibira el input */
 
+		printf("\n");
+
 		switch (option) {// Entra a la opcion seleccionada para llevarla a cabo
 		case 1:
             /*------- Importar Productis -------*/
-			cleanScreen();
+			printf("Introduzca el nombre del archivo (max 30 caracteres): ");
+			char nombreArchivo[31];
+
+			scanf("%s", nombreArchivo);
+			getchar();
+
+			int errorArchivo = leerArchivoCanciones(nombreArchivo, nombre);
+
+			crearMapasFaltantes(nombre, tipo, marca);
+
+			if (errorArchivo)// Envia un mensaje con la situacion que corresponda
+				printf("Ha ocurrido un error al cargar el archivo o no existe el archivo");
+			else
+				printf("Archivo Cargado");
 			break;
             //-----------------------------------------//
         case 2:
 			/*------- Exportar productos -------*/
-			cleanScreen();
 			break;
 			//-----------------------------------------//
         case 3:
             /*------- Agregar producto -------*/
-			cleanScreen();
             
 			//-----------------------------------------//
 		case 4:
 			/*------- Buscar productos por tipo -------*/
-			cleanScreen();
 			
 			break;
 			//-----------------------------------------//
 		case 5:
 			/*------- Buscar productos por marca -------*/
-			cleanScreen();
 			
 			break;
 			//-----------------------------------------//
 		case 6:
 			/*------- Buscar producto por nombre -------*/
-			cleanScreen();
 			
 			break;
 			//-----------------------------------------//
 		case 7:
 			/*------- Mostrar todos los productos -------*/
-			cleanScreen();
+			printf("A continuacion se imprimiran los datos de 10 en 10 (cada 10 mostrado, presione ENTER)\n\n");
+			getchar();
+			int cont = 0;
+			Producto *prod = firstMap(nombre);
+			while (prod !=NULL)
+			{
+				imprimirProducto(prod);
+				printf("\n");
+				cont++;
+				if(cont == 10){
+					cont = 0;
+					getchar();
+				}
+				prod = nextMap(nombre);
+			}
+
+			/*List *prod = firstMap(tipo);
+			Producto *imprime;
+			while (prod != NULL)
+			{
+				imprime = firstList(prod);
+				while (imprime != NULL)
+				{
+					imprimirProducto(imprime);
+					cont++;
+					printf("\n");
+					if(cont == 10){
+						cont = 0;
+						getchar();
+					}
+					imprime = nextList(prod);
+				}
+				prod = nextMap(tipo);
+			}*/
 			
+			/*List *prod = firstMap(marca);
+			Producto *imprime;
+			while (prod != NULL)
+			{
+				imprime = firstList(prod);
+				while (imprime != NULL)
+				{
+					imprimirProducto(imprime);
+					cont++;
+					printf("\n");
+					if(cont == 10){
+						cont = 0;
+						getchar();
+					}
+					imprime = nextList(prod);
+				}
+				prod = nextMap(marca);
+			}*/
 			break;
 			//-----------------------------------------//
 		case 8:
 			/*------- Agregar al carrito -------*/
-			cleanScreen();
 			break;
 			//-----------------------------------------//
         case 9:
 			/*------- Eliminar del carrito -------*/
-			cleanScreen();
 			break;
 			//-----------------------------------------//
 		case 10:
 			/*------- Concretar compra -------*/
-			cleanScreen();
 			break;
 			//-----------------------------------------//
 		case 11:
 			/*------- Mostrar carritos de compra -------*/
-			cleanScreen();
+			
 			break;
 			//-----------------------------------------//
         case 12:
 			/*------- Salir -------*/
-			cleanScreen();
 			break;
 			//-----------------------------------------//
         default:
 			/*------- Opcion no valida -------*/
-        	cleanScreen();
 			printf("Opci%cn inv%clida", 162, 160);
 			break;
 			//-----------------------------------------//
         }
         
-		if (option == 11) {
+		if (option == 12) {
 			break;
 		}
 
