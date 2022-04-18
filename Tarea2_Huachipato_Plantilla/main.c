@@ -137,8 +137,15 @@ Producto *crearProducto(char *nombre, char *tipo, char *marca, int stock, int pr
 	return new;
 }
 
-int leerArchivoCanciones(char *nombreArchivo, Map* Nombre)
+int leerArchivoProducto(Map* Nombre)
 { // Abre un archivo especifico y guarda sus datos
+    char nombreArchivo[31];
+	printf("Introduzca el nombre del archivo (max 30 caracteres): ");
+	scanf("%s", nombreArchivo);
+	getchar();
+	printf ("\n");
+	getchar();
+    
     FILE *F = fopen(nombreArchivo, "r"); // Abre el archivo con el nombre recibido en modo lectura
     
 	if (!F){ return 1;}// Si no existe el archivo, cierra el programa
@@ -177,7 +184,6 @@ int leerArchivoCanciones(char *nombreArchivo, Map* Nombre)
 	return 0;
 }
 //-----------------------------------------//
-
 /*------- Guardar Productos en Mapa -------*/
 List *crearLista(Producto *Save){
 	List *new = createList();
@@ -209,6 +215,38 @@ void crearMapasFaltantes(Map* general, Map* type, Map* brand){
 		save = nextMap(general);
 	}
 }
+
+void addProductoaMapa (Map *name, Map *type, Map *brand, Producto *product){
+	List *liste;
+	if ((searchMap(name, product->nombre)) == NULL)
+	{
+		insertMap (name, product->nombre, product);
+
+		if ((searchMap(type, product->tipo)) == NULL){
+			liste = crearLista(product);
+			insertMap(type, product->tipo, liste);
+		}
+		else{
+			liste = searchMap(type, product->tipo);
+			pushBack(liste, product);
+		}
+
+		if ((searchMap(brand, product->marca)) == NULL){
+			liste = crearLista(product);
+			insertMap(brand, product->marca, liste);
+		}
+		else{
+			liste = searchMap(brand, product->marca);
+			pushBack(liste, product);
+		}
+	}
+	else{
+
+		Producto *cambiarStock = searchMap (name, product->nombre);
+		cambiarStock->stock += product->stock;
+
+	}
+}
 //-----------------------------------------//
 
 /*-------  -------*/
@@ -221,8 +259,91 @@ void crearMapasFaltantes(Map* general, Map* type, Map* brand){
 //-----------------------------------------//
 
 /*-------  -------*/
-//-----------------------------------------//
+//-----------------Impresion de menu------------------------//
+void imprimirAdvertencia (){
+	printf("\n\nAntes de empezar, siempre que se le pida datos, evite usar: \n");
+	printf(" Vocales con tilde, procure no poner nunca tilde \n");
+	printf(" La letra '%c', de ser necesaria utilice 'ny' \n", 164);
+	printf(" El simbolo de inicio de pregunta %c, simplemente no lo ponga \n", 168);
+	printf("\nPresione ENTER si comprendio que es lo que no pude usar  ");
+	getchar(); 
+}
 
+int opcionMenu (){
+	int caso;
+	printf(" 1.- Importar productos\n");
+	printf(" 2.- Exportar productos\n");
+	printf(" 3.- Agregar producto\n");
+	printf(" 4.- Buscar productos por tipo\n");
+	printf(" 5.- Buscar productos por marca\n");
+	printf(" 6.- Buscar producto por nombre\n");
+	printf(" 7.- Mostrar todos los productos\n");
+	printf(" 8.- Agregar al carrito\n");
+	printf(" 9.- Eliminar del carrito\n");
+	printf("10.- Concretar compra\n");
+	printf("11.- Mostrar carritos de compra\n");
+	printf("12.- Salir\n");
+	printf("Introduzca una opci%cn: ", 162);
+	scanf("%i", &caso);
+	getchar();
+	printf("\n");
+	return caso;
+}
+
+void archivoCargado (int mensaje, Map *nombre, Map *tipo, Map*marca){
+	printf ("Aprete enter para continuar.\n");
+	if (mensaje)// Envia un mensaje con la situacion que corresponda
+			printf("Ha ocurrido un error al cargar el archivo o no existe el archivo");
+	else
+	        crearMapasFaltantes(nombre, tipo, marca);
+			printf("Archivo Cargado");
+}
+
+void leerProducto (Map *nombre_map, Map *tipo_map, Map *marca_map){
+	Producto *produkt;
+	char nombre[101];
+	char tipo[101];
+	char marca[101];
+	unsigned int stock;
+	unsigned int precio;
+
+	printf("Introduzca el nombre del producto: ");       
+	scanf("%[0-9a-zA-Z ,-]", nombre);
+	getchar();
+
+	printf("Introduzca el nombre del tipo del producto: ");
+	scanf("%[0-9a-zA-Z ,-]", tipo);
+	getchar();
+
+	printf("Introduzca el nombre de la marca del producto: ");
+	scanf("%[0-9a-zA-Z ,-]", marca);
+	getchar();
+
+	printf("Introduzca el stock del producto: ");
+	scanf("%d", &stock);
+	getchar();
+
+	printf("Introduzca el precio del producto: ");
+	scanf("%d", &precio);
+	getchar();
+
+	printf("\nLa informacion  del producto escrito: \n");
+	printf("Nombre: %s\n", nombre);
+	printf("Tipo: %s\n", tipo);
+	printf("Marca: %s\n", marca);
+	printf("Stock: %d\n", stock);
+	printf("Precio: %d\n", precio);
+	printf("Ingrese ENTER para confirmar o 'n' para cancelar y volver "
+				"al menu: ");
+
+	if (getchar() != 'n') {
+		produkt = crearProducto(nombre, tipo, marca, stock, precio);
+		addProductoaMapa(nombre_map, tipo_map, marca_map, produkt);
+		printf("Producto guardada exitosamente");
+	}
+}
+
+/*-------  -------*/
 /*------- Imprimir Producto -------*/
 void imprimirProducto(Producto* dato){
 	printf("Nombre: %s\n", dato->nombre);
@@ -237,62 +358,30 @@ void imprimirProducto(Producto* dato){
 //------------------MAIN-------------------------//
 
 int main() {
-	Map *nombre, *tipo, *marca, *carritos;
-	nombre = createMap(is_equal_string);
+	Map *nombre = createMap(is_equal_string);
     setSortFunction(nombre,lower_than_string);
-	tipo = createMap(is_equal_string);
+	Map *tipo = createMap(is_equal_string);
     setSortFunction(tipo,lower_than_string);
-	marca = createMap(is_equal_string);
+	Map *marca = createMap(is_equal_string);
     setSortFunction(marca,lower_than_string);
-	carritos = createMap(is_equal_string);
+	Map *carritos = createMap(is_equal_string);
     setSortFunction(carritos,lower_than_string);
 
 	int option = 0; //Variable que decide la opcion del menun seleccionada
 
-	printf("\n\nAntes de empezar, siempre que se le pida datos, evite usar: \n");
-	printf(" Vocales con tilde, procure no poner nunca tilde \n");
-	printf(" La letra '%c', de ser necesaria utilice 'ny' \n", 164);
-	printf(" El simbolo de inicio de pregunta %c, simplemente no lo ponga \n", 168);
-	printf("\nPresione ENTER si comprendio que es lo que no pude usar  ");
-	getchar();
+	imprimirAdvertencia ();
 
 	while (option != 12) { // Muestra el menu y actua segun la opcion seleccionada 
-		printf(" 1.- Importar productos\n");
-		printf(" 2.- Exportar productos\n");
-		printf(" 3.- Agregar producto\n");
-		printf(" 4.- Buscar productos por tipo\n");
-		printf(" 5.- Buscar productos por marca\n");
-		printf(" 6.- Buscar producto por nombre\n");
-		printf(" 7.- Mostrar todos los productos\n");
-		printf(" 8.- Agregar al carrito\n");
-		printf(" 9.- Eliminar del carrito\n");
-		printf("10.- Concretar compra\n");
-		printf("11.- Mostrar carritos de compra\n");
-		printf("12.- Salir\n");
-		printf("Introduzca una opci%cn: ", 162);
-		scanf("%d", &option);
-		getchar(); /* Importante poner getchar luego de cada scanf pues de lo 
-        contrario un futuro scanf leera un '\n' y no recibira el input */
 
-		printf("\n");
-
+        option = opcionMenu ();
+        	
 		switch (option) {// Entra a la opcion seleccionada para llevarla a cabo
 		case 1:
-            /*------- Importar Productis -------*/
-			printf("Introduzca el nombre del archivo (max 30 caracteres): ");
-			char nombreArchivo[31];
+            /*------- Importar Productos -------*/
+			;int errorArchivo = leerArchivoProducto(nombre);
 
-			scanf("%s", nombreArchivo);
-			getchar();
+			archivoCargado (errorArchivo, nombre, tipo, marca);
 
-			int errorArchivo = leerArchivoCanciones(nombreArchivo, nombre);
-
-			crearMapasFaltantes(nombre, tipo, marca);
-
-			if (errorArchivo)// Envia un mensaje con la situacion que corresponda
-				printf("Ha ocurrido un error al cargar el archivo o no existe el archivo");
-			else
-				printf("Archivo Cargado");
 			break;
             //-----------------------------------------//
         case 2:
@@ -300,8 +389,10 @@ int main() {
 			break;
 			//-----------------------------------------//
         case 3:
-            /*------- Agregar producto -------*/
-            
+            /*------- Agregar Cancion -------*/
+			leerProducto (nombre, tipo, marca);
+
+			break;
 			//-----------------------------------------//
 		case 4:
 			/*------- Buscar productos por tipo -------*/
@@ -323,7 +414,7 @@ int main() {
 			printf("A continuacion se imprimiran los datos de 10 en 10 (cada 10 mostrado, presione ENTER)\n\n");
 			getchar();
 			int cont = 0;
-			Producto *prod = firstMap(nombre);
+			/*Producto *prod = firstMap(nombre);
 			while (prod !=NULL)
 			{
 				imprimirProducto(prod);
@@ -334,7 +425,7 @@ int main() {
 					getchar();
 				}
 				prod = nextMap(nombre);
-			}
+			}*/
 
 			/*List *prod = firstMap(tipo);
 			Producto *imprime;
@@ -355,7 +446,7 @@ int main() {
 				prod = nextMap(tipo);
 			}*/
 			
-			/*List *prod = firstMap(marca);
+			List *prod = firstMap(marca);
 			Producto *imprime;
 			while (prod != NULL)
 			{
@@ -372,7 +463,7 @@ int main() {
 					imprime = nextList(prod);
 				}
 				prod = nextMap(marca);
-			}*/
+			}
 			break;
 			//-----------------------------------------//
 		case 8:
