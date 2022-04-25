@@ -240,6 +240,81 @@ void sobreescribirArchivo(char *Archive, Map *mapa) {
 	fclose(file);// Cierra el archivo
 }
 //-----------------------------------------//
+void addProductoaMapa (Map *name, Map *type, Map *brand, Producto *product){
+	List *liste;
+	if ((searchMap(name, product->nombre)) == NULL)
+	{
+		insertMap (name, product->nombre, product);
+
+		if ((searchMap(type, product->tipo)) == NULL){
+			liste = crearLista(product);
+			insertMap(type, product->tipo, liste);
+		}
+		else{
+			liste = searchMap(type, product->tipo);
+			pushBack(liste, product);
+		}
+
+		if ((searchMap(brand, product->marca)) == NULL){
+			liste = crearLista(product);
+			insertMap(brand, product->marca, liste);
+		}
+		else{
+			liste = searchMap(brand, product->marca);
+			pushBack(liste, product);
+		}
+	}
+	else{
+
+		Producto *cambiarStock = searchMap (name, product->nombre);
+		cambiarStock->stock += product->stock;
+
+	}
+}
+
+void leerProducto (Map *nombre_map, Map *tipo_map, Map *marca_map){
+	Producto *produkt;
+	char nombre[101];
+	char tipo[101];
+	char marca[101];
+	unsigned int stock;
+	unsigned int precio;
+
+	printf("Introduzca el nombre del producto: ");       
+	scanf("%[0-9a-zA-Z ,-]", nombre);
+	getchar();
+
+	printf("Introduzca el nombre del tipo del producto: ");
+	scanf("%[0-9a-zA-Z ,-]", tipo);
+	getchar();
+
+	printf("Introduzca el nombre de la marca del producto: ");
+	scanf("%[0-9a-zA-Z ,-]", marca);
+	getchar();
+
+	printf("Introduzca el stock del producto: ");
+	scanf("%d", &stock);
+	getchar();
+
+	printf("Introduzca el precio del producto: ");
+	scanf("%d", &precio);
+	getchar();
+
+	printf("\nLa informacion  del producto escrito: \n");
+	printf("Nombre: %s\n", nombre);
+	printf("Tipo: %s\n", tipo);
+	printf("Marca: %s\n", marca);
+	printf("Stock: %d\n", stock);
+	printf("Precio: %d\n", precio);
+	printf("Ingrese ENTER para confirmar o 'n' para cancelar y volver "
+				"al menu: ");
+
+	if (getchar() != 'n') {
+		produkt = crearProducto(nombre, tipo, marca, stock, precio);
+		addProductoaMapa(nombre_map, tipo_map, marca_map, produkt);
+		printf("Producto guardada exitosamente");
+	}
+}
 
 /*-------  -------*/
 //-----------------------------------------//
@@ -340,6 +415,7 @@ int main() {
 			//-----------------------------------------//
         case 3:
             /*------- Agregar producto -------*/
+			leerProducto (nombre, tipo, marca);
             
 			//-----------------------------------------//
 		case 4:
