@@ -72,6 +72,7 @@ int lower_than_int(void * key1, void * key2) {
 
 /*------- Crear Mapa de String -------*/
 Map *crearMapaString() {
+	// Crea y retorna un mapa adecuado para usar string como claves.
     Map *map = createMap(is_equal_string);
     setSortFunction(map,lower_than_string);
 	return map;
@@ -80,6 +81,7 @@ Map *crearMapaString() {
 
 /*------- Advertencia -------*/
 void Advertencia() {
+	// Imprime una advertencia en pantalla antes de iniciar.
     printf("\n\nAntes de empezar, siempre que se le pida datos, evite usar: \n");
 	printf(" Vocales con tilde, procure no poner nunca tilde \n");
 	printf(" La letra '%c', de ser necesaria utilice 'ny' \n", 164);
@@ -88,8 +90,11 @@ void Advertencia() {
 //-----------------------------------------//
 
 /*------- Presionar Enter -------*/
-void pressEnter(){
-	printf("\n\nPresione ENTER para volver al men%c",163);
+void pressEnter(int opcion){
+	// Funcion que detiene temporalmente el programa 
+	// hasta que el usuario presione enter.
+	printf("\n\nPresione ENTER");
+	if(opcion == 1){printf(" para volver al men%c",163);}
 	getchar();
 	printf("\n\n");
 }
@@ -97,6 +102,7 @@ void pressEnter(){
 
 /*------- Mostrar Menú -------*/
 void MostrarMenu(){
+	//Muestra las opciones del menu y un mensaje para que seleccione una opcion,
 	printf("\n\n");
 	printf(" 1.- Importar productos\n");
 	printf(" 2.- Exportar productos\n");
@@ -114,12 +120,17 @@ void MostrarMenu(){
 }
 
 /*------- Copiar string en un nuevo espacio de memoria -------*/
-char * _strdup(const char * str) {
+char * _strdup(const char * str){
+	// Recibe un string y la copia en una string nueva con una direccion de 
+	// memoria nueva y retorna la nueva string.
     char * aux = (char *)malloc(strlen(str) + 1);
     strcpy(aux, str);
     return aux;
 }
 //-----------------------------------------//
+
+
+//**************************  OPCIÓN 1  ***********************//
 
 /*------- Leer Archivo -------*/
 char *get_csv_field(char *tmp, int k) {
@@ -167,7 +178,8 @@ char *get_csv_field(char *tmp, int k) {
 }
 
 Producto *crearProducto(char *nombre, char *tipo, char *marca, int stock, int precio) {
-    // Guarda los datos recibidos en una struct de cancion con lo que corresponde y retorna la cancion 
+    // Guarda los datos recibidos en una struct de Producto con lo que corresponde
+	// y retorna el producto 
 
 	Producto *new = (Producto *)malloc(sizeof(Producto));
 	new->nombre = strdup(nombre);
@@ -180,37 +192,51 @@ Producto *crearProducto(char *nombre, char *tipo, char *marca, int stock, int pr
 
 //	/*------- Guardar Productos en Mapa -------*/
 List *crearLista(Producto *Save){
+	// Crea una lista y guarda el dato enviado en la ultima posicion de la lista
+	// para despues retornar la lista
 	List *new = createList();
 	pushBack(new, Save);
 	return new;
 }
 
 void addProductoaMapa(Map *name, Map *type, Map *brand, Producto *product){
-	List *liste;
-	if ((searchMap(name, product->nombre)) == NULL)
+	// Agrega el producto recibido a los 3 mapas recibidos
+	List *liste; //variable para guardar las listas de los mapas
+	
+	if ((searchMap(name, product->nombre)) == NULL) // revisa si el producto existe o no
 	{
-		insertMap (name, product->nombre, product);
+		//Si el producto no existe se inserta en los mapas
 
+		insertMap (name, product->nombre, product); // Se inserta en el mapa de nombres
+		
+		// Revisa si existe el tipo del producto en el mapa de tipos
 		if ((searchMap(type, product->tipo)) == NULL){
+			// si no existe, se crea una lista, se guarda el producto en la lista
+			// y la lista se guarda en el mapa con la clave de el tipo del producto
 			liste = crearLista(product);
 			insertMap(type, product->tipo, liste);
 		}
 		else{
+			// si existe, se guarda al final de la lista en el tipo del producto
 			liste = searchMap(type, product->tipo);
 			pushBack(liste, product);
 		}
 
+		// Revisa si existe marca del producto en el mapa de marcas
 		if ((searchMap(brand, product->marca)) == NULL){
+			// si no existe, se crea una lista, se guarda el producto en la lista
+			// y la lista se guarda en el mapa con la clave de la marca del producto
 			liste = crearLista(product);
 			insertMap(brand, product->marca, liste);
 		}
 		else{
+			// si existe, se guarda al final de la lista en la marca del producto
 			liste = searchMap(brand, product->marca);
 			pushBack(liste, product);
 		}
 	}
 	else{
-
+		// Si el producto existe, simplemente se aumentara su stock segun corresponda
 		Producto *cambiarStock = searchMap (name, product->nombre);
 		cambiarStock->stock += product->stock;
 
@@ -227,6 +253,7 @@ int leerArchivoCanciones(char *nombreArchivo, Map* Nombre, Map *Tipo, Map* Marca
 	Producto *product;
 	char linea[1024]; // Cadena de caracter para guardar una linea del archivo
 
+	// Variables para guardar los datos de una linea
 	char *nombre, *tipo, *marca;
 	int stock;
 	int precioIndividual;
@@ -245,6 +272,7 @@ int leerArchivoCanciones(char *nombreArchivo, Map* Nombre, Map *Tipo, Map* Marca
 		// Se crea el producto con las variables leidas de la string 'linea'
 		product = crearProducto(nombre, tipo, marca, stock, precioIndividual);
 		
+		// Se agrega el producto a los 3 mapsa de nombre, tipo, marca
 		addProductoaMapa(Nombre, Tipo, Marca, product);
 	}
 	
@@ -253,8 +281,10 @@ int leerArchivoCanciones(char *nombreArchivo, Map* Nombre, Map *Tipo, Map* Marca
 }
 //-----------------------------------------//
 
-/*----------------- OPCIóN 1: Importar Producto -----------------*/
+/*----------------- OPCIÓN 1: Importar Producto -----------------*/
 void ImportarProductos(Map *name, Map *type, Map *brand){
+	// Realiza la operacion correspondiente a la opcion 1 del menu
+	// , es decir, importa los productos de un archivo.
 	printf("Introduzca el nombre del archivo (max 30 caracteres): ");
 	char nombreArchivo[31];
 	scanf("%s", nombreArchivo);
@@ -269,8 +299,11 @@ void ImportarProductos(Map *name, Map *type, Map *brand){
 }
 //-------------------------------------------------------------//
 
+//**************************************************************//
 
 
+
+//**************************  OPCIÓN 2  ***********************//
 
 /*------- Crear o Sobreescribir Archivo -------*/
 void sobreescribirArchivo(char *Archive, Map *mapa) {
@@ -302,8 +335,10 @@ void sobreescribirArchivo(char *Archive, Map *mapa) {
 }
 //-----------------------------------------//
 
-/*----------------- OPCIóN 2: Exportar Producto -----------------*/
+/*----------------- OPCIÓN 2: Exportar Producto -----------------*/
 void ExportarProductos(Map *name){
+	// Realiza la operacion correspondiente a la opcion 2 del menu
+	// , es decir, Emporta los productos en un archivo.
 	printf("Introduzca el nombre del archivo donde desea guardar los "
 			"datos (max 30 caracteres): ");
 	char nameArchive[31];
@@ -316,11 +351,16 @@ void ExportarProductos(Map *name){
 }
 //-------------------------------------------------------------//
 
+//**************************************************************//
 
 
 
-/*----------------- OPCIóN 3: Aggregar Producto -----------------*/
+//**************************  OPCIÓN 3  ***********************//
+
+/*----------------- OPCIÓN 3: Agregar Producto -----------------*/
 void leerProducto (Map *nombre_map, Map *tipo_map, Map *marca_map){
+	// Realiza la operacion correspondiente a la opcion 3 del menu
+	// , es decir, guarda un producto ingresado por el usuario
 	Producto *produkt;
 	char nombre[101];
 	char tipo[101];
@@ -331,17 +371,14 @@ void leerProducto (Map *nombre_map, Map *tipo_map, Map *marca_map){
 	printf("Introduzca el nombre del producto: ");       
 	scanf("%[0-9a-zA-Z ,-]", nombre);
 	getchar();
-	//char *name = get_csv_field(nombre ,0);
 
 	printf("Introduzca el nombre del tipo del producto: ");
 	scanf("%[0-9a-zA-Z ,-]", tipo);
 	getchar();
-	//char *type = get_csv_field(tipo ,0);
 
 	printf("Introduzca el nombre de la marca del producto: ");
 	scanf("%[0-9a-zA-Z ,-]", marca);
 	getchar();
-	//char *brand = get_csv_field(marca ,0);
 
 	printf("Introduzca el stock del producto: ");
 	scanf("%d", &stock);
@@ -357,10 +394,10 @@ void leerProducto (Map *nombre_map, Map *tipo_map, Map *marca_map){
 	printf("Marca: %s\n", get_csv_field(marca, 0));
 	printf("Stock: %d\n", stock);
 	printf("Precio: %d\n", precio);
-	printf("Ingrese ENTER para confirmar o 'n' para cancelar y volver "
-				"al menu: ");
-
-	if (getchar() != 'n') {
+	printf("Ingrese ENTER para confirmar o 'n' para cancelar");
+	
+	// El usuario decide si guardar o no el producto con los datos que ingreso
+	if (getchar() != 'n') { 
 		produkt = crearProducto(get_csv_field(nombre, 0), get_csv_field(tipo, 0), 
 		                        get_csv_field(marca, 0), stock, precio);
 		addProductoaMapa(nombre_map, tipo_map, marca_map, produkt);
@@ -369,20 +406,42 @@ void leerProducto (Map *nombre_map, Map *tipo_map, Map *marca_map){
 }
 //-------------------------------------------------------------//
 
-/*-------  -------*/
-//-----------------------------------------//
+//**************************************************************//
+
+
+
+//**************************  OPCIÓN 4  ***********************//
 
 /*-------  -------*/
 //-----------------------------------------//
 
-/*-------  -------*/
-//-----------------------------------------//
+//**************************************************************//
+
+
+
+//**************************  OPCIÓN 5  ***********************//
 
 /*-------  -------*/
 //-----------------------------------------//
+
+//**************************************************************//
+
+
+
+//**************************  OPCIÓN  6 ***********************//
+
+/*-------  -------*/
+//-----------------------------------------//
+
+//**************************************************************//
+
+
+
+//**************************  OPCIÓN 7  ***********************//
 
 /*------- Imprimir Producto -------*/
 void imprimirProducto(Producto* dato){
+	// Imprime los datos de un producto
 	printf("Nombre: %s\n", dato->nombre);
 	printf(" Marca: %s\n", dato->marca);
 	printf("  Tipo: %s\n", dato->tipo);
@@ -393,15 +452,19 @@ void imprimirProducto(Producto* dato){
 
 /*----------------- OPCIÓN 7: Mostrar Mapa -----------------*/
 void ImprimirMapaSeleccionado(int opt, Map *name_map, Map *type_map, Map *brand_map){
-	printf("A continuacion se imprimiran los datos de 10 en 10 (cada 10 mostrado, presione ENTER)\n\n");
+	printf("\n\nA continuacion se imprimiran los datos de 10 en 10 (cada 10 mostrado, presione ENTER)\n\n");
 	getchar();
-
+	
+	// Variables que llegaran a ser necesarias dependiendo de la opt recibida.
 	List *prodList;
 	Producto *prod;
 	int cont = 0;
+
+
 	switch (opt)
 	{
 	case 1:
+		// Recorre el mapa nombre e imprime cada producto en el mapa
 		prod = firstMap(name_map);
 		while (prod !=NULL)
 		{
@@ -417,6 +480,8 @@ void ImprimirMapaSeleccionado(int opt, Map *name_map, Map *type_map, Map *brand_
 		break;
 	
 	case 2:
+		// Recorre el mapa tipo, en cada posicion recorre 
+		// la lista guardada e imprime cada producto en la lista
 		prodList = firstMap(type_map);
 		while (prodList != NULL)
 		{
@@ -436,6 +501,8 @@ void ImprimirMapaSeleccionado(int opt, Map *name_map, Map *type_map, Map *brand_
 		}
 		break;
 	case 3:
+		// Recorre el mapa marca, en cada posicion recorre la 
+		// lista guardada e imprime cada producto en la lista
 		prodList = firstMap(brand_map);
 		while (prodList != NULL)
 		{
@@ -455,16 +522,21 @@ void ImprimirMapaSeleccionado(int opt, Map *name_map, Map *type_map, Map *brand_
 		}
 		break;
 	default:
+		printf("No existe el mapa seleccionado\n\n");
 		break;
 	}
 }
 
 void ImprimirMapa(int opt, Map *nameMap, Map *typeMap, Map *brandMap){
-	printf("1.- Imprimir por Nombre\n");
-	printf("2.- Imprimir por Tipo\n");
-	printf("3.- Imprimir por Marca\n");
+	// Realiza la operacion correspondiente a la opcion 7 del menu
+	// , es decir, muestra todos los productos guardados por el codigo.
+
+	// Nos permite seleccionar como imprimir los productos antes de imprimirlos 
 	while(true)
 	{
+		printf("\n\n\n1.- Imprimir por Nombre\n");
+		printf("2.- Imprimir por Tipo\n");
+		printf("3.- Imprimir por Marca\n");
 		printf("Introduzca una opci%cn valida: ", 162);
 		scanf("%d", &opt);
 		if (opt == 1 || opt == 2 || opt == 3)
@@ -474,18 +546,60 @@ void ImprimirMapa(int opt, Map *nameMap, Map *typeMap, Map *brandMap){
 			printf("\nOpci%cn invalida\n", 162);
 		}
 	}
+
+	// Imprime el mapa de acuerdo a la opcion seleccionada
 	ImprimirMapaSeleccionado(opt, nameMap, typeMap, brandMap);
-	
-	// ponga 1 para imprimir por nombre
-	// ponga 2 para imprimir por tipo
-	// ponga 3 para imprimir por marca
 }
 //-------------------------------------------------------------//
+
+//**************************************************************//
+
+
+
+//**************************  OPCIÓN 8  ***********************//
+
+/*-------  -------*/
+//-----------------------------------------//
+
+//**************************************************************//
+
+
+
+//**************************  OPCIÓN 9  ***********************//
+
+/*-------  -------*/
+//-----------------------------------------//
+
+//**************************************************************//
+
+
+
+//**************************  OPCIÓN 10 ***********************//
+
+/*-------  -------*/
+//-----------------------------------------//
+
+//**************************************************************//
+
+
+
+//**************************  OPCIÓN 11  ***********************//
+
+/*-------  -------*/
+//-----------------------------------------//
+
+//**************************************************************//
+
+
+
+
+
 
 
 //------------------MAIN-------------------------//
 
 int main() {
+	// Crea los 4 mapas que se podrian usar a lo largo del codigo
 	Map *nombre = crearMapaString();
 	Map *tipo = crearMapaString();
 	Map *marca = crearMapaString();
@@ -494,7 +608,7 @@ int main() {
 	int option = 0; //Variable que decide la opcion del menun seleccionada
 
 	Advertencia();
-	pressEnter();
+	pressEnter(0);
 
 	while (option != 12) { // Muestra el menu y actua segun la opcion seleccionada 
 		MostrarMenu();
@@ -502,6 +616,8 @@ int main() {
 		scanf("%d", &option);
 		getchar(); /* Importante poner getchar luego de cada scanf pues de lo 
         contrario un futuro scanf leera un '\n' y no recibira el input */
+
+		if (option == 12) {break;} //Sale del while si la opcion escogida en el menu era Salir
 
 		printf("\n\n");
 
@@ -559,22 +675,14 @@ int main() {
 			
 			break;
 			//-----------------------------------------//
-        case 12:
-			/*------- Salir -------*/
-			break;
-			//-----------------------------------------//
         default:
 			/*------- Opcion no valida -------*/
 			printf("Opci%cn inv%clida", 162, 160);
 			break;
 			//-----------------------------------------//
         }
-        
-		if (option == 12) {
-			break;
-		}
 
-		pressEnter();
+		pressEnter(1);
 		
 	}
 
