@@ -410,34 +410,7 @@ void leerProducto (Map *nombre_map, Map *tipo_map, Map *marca_map){
 
 
 
-//**************************  OPCIÓN 4  ***********************//
-
-/*-------  -------*/
-//-----------------------------------------//
-
-//**************************************************************//
-
-
-
-//**************************  OPCIÓN 5  ***********************//
-
-/*-------  -------*/
-//-----------------------------------------//
-
-//**************************************************************//
-
-
-
-//**************************  OPCIÓN  6 ***********************//
-
-/*-------  -------*/
-//-----------------------------------------//
-
-//**************************************************************//
-
-
-
-//**************************  OPCIÓN 7  ***********************//
+//**************************  OPCIÓN 4, 5 ,6  ***********************//
 
 /*------- Imprimir Producto -------*/
 void imprimirProducto(Producto* dato){
@@ -449,6 +422,96 @@ void imprimirProducto(Producto* dato){
 	printf("Precio: %u\n", dato->precioIndividual);
 }
 //-----------------------------------------//
+
+/*------- Comparar cadenas de caracteres -------*/
+int compare_strings(char cadena1[101], char *cadena2)
+{   size_t largo = sizeof(cadena2)/sizeof(char); // SIRVE PARA ENCONTRAR EL LARGO DE LA CADENA DINAMICA
+    for(int i = 0; i < largo; i++){
+		if (cadena1[i] != cadena2[i]) {return 1;}
+		}return 0;
+}
+//-----------------------------------------//
+
+
+/*------- Buscar por tipo  -------*/
+void BusquedaTipo(char* prod, Map* tipo)
+{
+	Producto* producto; int cont = 0;
+	List* prodList = firstMap(tipo);
+	prod = get_csv_field(prod, 0);
+	
+	while (prodList != NULL)
+		{
+			producto = firstList(prodList);
+			while(producto != NULL)
+			{
+				
+				if(compare_strings(prod, producto->tipo) == 0)
+				{
+					if(cont == 0){printf("Productos econtrados : \n");}
+					imprimirProducto(producto); printf("\n");
+					producto = nextList(prodList);
+					cont++;
+				}	
+				else
+				{
+					producto = nextList(prodList);
+				}
+			}
+			prodList = nextMap(tipo);
+		}
+		
+		if(cont == 0 || tipo == NULL){printf("No se a encontrado producto"); return;}
+
+}
+//-----------------------------------------//
+
+/*------- 	Busqueda nombre -------*/
+void BusquedaNombre(char* prod, Map* nombre)
+{
+	printf("Funcion no implementada");
+}
+
+/*------- 	Busqueda marca -------*/
+void BusquedaMarca(char* prod, Map* marca)
+{
+	printf("Funcion no implementada");
+}
+
+/*------- 	Opciòn 4,5,6: Busqueda -------*/
+void BuscarProducto(Map *tipo, Map *nombre, Map* marca, int opt)
+{
+	char prod[101];
+	switch(opt)
+	{
+	case 4:
+	printf("Ingrese el producto que desea buscar por tipo\n");
+	scanf("%[0-9a-zA-Z ,-]", prod);
+	getchar();
+	BusquedaTipo(prod, tipo);
+	break;
+	case 5:
+	printf("Ingrese el producto que desea buscar por marca\n");
+	scanf("%[0-9a-zA-Z ,-]", prod);
+	getchar();
+	BusquedaMarca(prod, marca);
+	break;
+	case 6:
+	printf("Ingrese el producto que desea buscar por nombre\n");
+	scanf("%[0-9a-zA-Z ,-]", prod);
+	getchar();
+	BusquedaNombre(prod, nombre);
+	break;
+	}
+}
+//-----------------------------------------//
+
+//**************************************************************//
+
+
+
+
+//**************************  OPCIÓN 7  ***********************//
 
 /*----------------- OPCIÓN 7: Mostrar Mapa -----------------*/
 void ImprimirMapaSeleccionado(int opt, Map *name_map, Map *type_map, Map *brand_map){
@@ -639,7 +702,7 @@ int main() {
 			//-----------------------------------------//
 		case 4:
 			/*------- Buscar productos por tipo -------*/
-			
+			BuscarProducto(tipo, nombre, marca, option);
 			break;
 			//-----------------------------------------//
 		case 5:
