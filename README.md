@@ -35,7 +35,7 @@
 ![Grande Huachipato](https://pbs.twimg.com/profile_images/1494832822099451910/NgCFzNKt_400x400.jpg)
 
 
-## 1. ## Como compilar y ejecutar la tarea:
+## 1. Como compilar y ejecutar la tarea:
     Abrir la carpeta en el VSCode.
     Abrir terminal.
     Escribir lo siguiente en el terminal:
@@ -62,7 +62,7 @@ gcc -g main.c list.c -o Tarea1 // Para crear o sobrescribir Tarea1 con lo últim
 	12.- Salir
 ~~~
 
-## 2. ## Las opciones que funcionan correctamente y las que no lo hacen indicando posibles causas
+## 2. Las opciones que funcionan correctamente y las que no lo hacen indicando posibles causas
     Hasta ahora todas las funciones están funcionales en casos normales ósea sin que el usuario intente apretar letras al azar o colocando datos sin pensar.
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
