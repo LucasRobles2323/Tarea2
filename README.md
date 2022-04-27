@@ -51,6 +51,7 @@ De esa forma se creo o modifico el ejecutable, que se ejecuta de la siguiente ma
 ~~~
 
 Este sería el menú.
+~~~
     1. Importar productos
     2. Exportar productos
     3. Agregar producto
@@ -63,7 +64,7 @@ Este sería el menú.
     10. Concretar compra
     11. Mostrar carritos de compra
     12. Salir
-
+~~~
 
 ## 2. Las opciones que funcionan correctamente y las que no lo hacen indicando posibles causas
 Hasta ahora todas las funciones están funcionales en casos normales ósea sin que el usuario intente apretar letras al azar o colocando datos sin pensar.
