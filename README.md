@@ -1,10 +1,6 @@
 # Tarea2 Huachipato
 
-
-    Estudiantes PUCV curso: ICI2240-1	ESTRUCTURA DE DATOS
-
-
-
+Estudiantes PUCV curso: ICI2240-1  ESTRUCTURA DE DATOS
 
 ## **_Integrantes_**
 
