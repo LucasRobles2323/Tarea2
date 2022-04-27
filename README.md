@@ -36,16 +36,20 @@
 
 
 ## 1. Como compilar y ejecutar la tarea:
-    Abrir la carpeta en el VSCode.
-    Abrir terminal.
-    Escribir lo siguiente en el terminal:
+Abrir la carpeta en el VSCode.
+
+Abrir terminal.
+
+Escribir lo siguiente en el terminal:
 ~~~
 gcc -g main.c list.c -o Tarea1 // Para crear o sobrescribir Tarea1 con lo último guardado
 ~~~
-    De esa forma se creo o modifico el ejecutable, que se ejecuta de la siguiente manera:
+
+De esa forma se creo o modifico el ejecutable, que se ejecuta de la siguiente manera:
 ~~~
 ./Tarea1 //Para ejecutar
 ~~~
+
 ~~~
 //este sería el menú.
    1.- Importar productos
@@ -63,7 +67,7 @@ gcc -g main.c list.c -o Tarea1 // Para crear o sobrescribir Tarea1 con lo últim
 ~~~
 
 ## 2. Las opciones que funcionan correctamente y las que no lo hacen indicando posibles causas
-    Hasta ahora todas las funciones están funcionales en casos normales ósea sin que el usuario intente apretar letras al azar o colocando datos sin pensar.
+Hasta ahora todas las funciones están funcionales en casos normales ósea sin que el usuario intente apretar letras al azar o colocando datos sin pensar.
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
