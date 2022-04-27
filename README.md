@@ -50,21 +50,20 @@ De esa forma se creo o modifico el ejecutable, que se ejecuta de la siguiente ma
 ./Tarea1 //Para ejecutar
 ~~~
 
-~~~
-//este sería el menú.
-   1.- Importar productos
-	 2.- Exportar productos
-	 3.- Agregar producto
-	 4.- Buscar productos por tipo
-	 5.- Buscar productos por marca
-	 6.- Buscar producto por nombre
-	 7.- Mostrar todos los productos
-	 8.- Agregar al carrito
-	 9.- Eliminar del carrito
-	10.- Concretar compra
-	11.- Mostrar carritos de compra
-	12.- Salir
-~~~
+Este sería el menú.
+    1. Importar productos
+    2. Exportar productos
+    3. Agregar producto
+    4. Buscar productos por tipo
+    5. Buscar productos por marca
+    6. Buscar producto por nombre
+    7. Mostrar todos los productos
+    8. Agregar al carrito
+    9. Eliminar del carrito
+    10. Concretar compra
+    11. Mostrar carritos de compra
+    12. Salir
+
 
 ## 2. Las opciones que funcionan correctamente y las que no lo hacen indicando posibles causas
 Hasta ahora todas las funciones están funcionales en casos normales ósea sin que el usuario intente apretar letras al azar o colocando datos sin pensar.
