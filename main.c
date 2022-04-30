@@ -713,7 +713,7 @@ void agregarProdCarrito(Map *mapCarritos, Map *mapNombre)
 	venta->comprado = (Producto *) searchMap(mapNombre, nombreProducto);
 	if(!venta->comprado)
 	{
-		printf("No se ha encontrado producto con el nombre indicado");
+		printf("No se ha encontrado producto con el nombre indicado\n");
 		free(venta); //Se libera venta debido al error 
 		return;
 	}
@@ -722,7 +722,7 @@ void agregarProdCarrito(Map *mapCarritos, Map *mapNombre)
 	venta->cantidadComprada = cantidad;
 	if(venta->cantidadComprada > venta->comprado->stock)
 	{
-		printf("La cantidad ingresada es mayor al stock del producto");
+		printf("La cantidad ingresada es mayor al stock del producto\n");
 		free(venta);
 		return;
 	}
@@ -735,7 +735,7 @@ void agregarProdCarrito(Map *mapCarritos, Map *mapNombre)
 	carrito->productosComprar += cantidad;
 	carrito->precioPagar += venta->precioTotal;
 
-	printf("Agregado %s a carrito %s exitosamente.", nombreProducto, nombreCarrito);
+	printf("Agregado %s a carrito %s exitosamente.\n", nombreProducto, nombreCarrito);
 }
 //-----------------------------------------//
 
@@ -798,9 +798,24 @@ void concretarCompra(Map *mapCarritos)
 	while(aux)
 	{
 		printf("Producto: %s\n", aux->comprado->nombre);
-		printf("Cantidad: %d\n", aux->cantidadComprada);
-		printf("Precio individual: %d\n\n", aux->comprado->precioIndividual);
+		printf("Precio individual: %d\n", aux->comprado->precioIndividual);
+		printf("Cantidad: %d (Disponible: %d)\n", aux->cantidadComprada, aux->comprado->stock);
 
+		if(aux->cantidadComprada > aux->comprado->stock)
+		{
+			printf("No hay stock suficiente, se actualizara automaticamente al stock disponible\n");
+
+			carrito->productosComprar -= aux->cantidadComprada;
+			carrito->precioPagar -= aux->precioTotal;
+
+			aux->cantidadComprada = aux->comprado->stock;
+			aux->precioTotal = aux->cantidadComprada * aux->comprado->precioIndividual;
+
+			carrito->productosComprar += aux->cantidadComprada;
+			carrito->precioPagar += aux->precioTotal;
+		}
+
+		printf("\n");
 		aux = nextList(carrito->carro);
 	}
 
