@@ -231,10 +231,11 @@ Crea variables para guardar los datos de una linea.
 
 Crea un while que guarda una linea del archivo cada vez en una string y termina el ciclo cuando la string sea nula.
     - Separa los datos de la linea y los guarda en variables correspondientes.
-    - Guarda los datos en una struct Producto con la funcion crearProducto()
-      enviando los datos correspondientes.
-    - Guarda el producto en los 3 mapas, enviando el producto y los 3 mapas
-      a la función addProductoaMap().
+    - Crea un if para verificar que stock y precio sean mayores que 0.
+        - Guarda los datos en una struct Producto con la funcion crearProducto()
+          enviando los datos correspondientes.
+        - Guarda el producto en los 3 mapas, enviando el producto y los 3 mapas
+          a la función addProductoaMap().
 	
 Cierra el archivo y retorna 0, para mostrar que la función realizo su labor de forma exitosa.
 }
@@ -269,9 +270,9 @@ La funcion crea una variable tipo struct Producto.
 La variable tipo Producto toma el valor del primer dato del mapa con firstList()
 
 Crea una while para recorrer el mapa con los datos, que se detendra cuando la variable tipo Producto sea NULL.
-    - Utiliza fprintf para guardar el nombre, marca, tipo, stock y precio
-      que contiene la variable tipo struct Producto separados por coma en 
-      una linea del archivo y al final poniendo un salto de linea.
+    - Usa un if para saber si el producto tiene stock y precio mayores que 0.
+        - Utiliza fprintf para guardar el nombre, marca, tipo, stock y precio
+          que contiene la variable tipo struct Producto separados por coma en una linea del archivo y al final poniendo un salto de linea.
     - Usa nextMap() guardando un nuevo producto en la variable struct Producto.
 
 Cierra el archivo.
@@ -313,6 +314,8 @@ void leerProducto (Map *nombre_map, Map *tipo_map, Map *marca_map)
 /*------- Imprimir Producto -------*/
 void imprimirProducto(Producto* dato){
 La funcion recibe una variable tipo struct Producto.
+
+Crea un if, donde si el producto tiene stock o precio menor o igual a 0, entonces no imprime el producto
 
 Utiliza printf para mostrar en pantalla cada variable del struct con un titulo correspondiente y con un salto de linea entre cada uno.
 }

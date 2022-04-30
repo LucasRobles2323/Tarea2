@@ -269,11 +269,13 @@ int leerArchivoCanciones(char *nombreArchivo, Map* Nombre, Map *Tipo, Map* Marca
 		stock = atoi(get_csv_field(linea, 3));
 		precioIndividual = atoi(get_csv_field(linea, 4));
 
-		// Se crea el producto con las variables leidas de la string 'linea'
-		product = crearProducto(nombre, tipo, marca, stock, precioIndividual);
+		if(stock > 0 && precioIndividual > 0){
+			// Se crea el producto con las variables leidas de la string 'linea'
+			product = crearProducto(nombre, tipo, marca, stock, precioIndividual);
 		
-		// Se agrega el producto a los 3 mapsa de nombre, tipo, marca
-		addProductoaMapa(Nombre, Tipo, Marca, product);
+			// Se agrega el producto a los 3 mapsa de nombre, tipo, marca
+			addProductoaMapa(Nombre, Tipo, Marca, product);
+		}
 	}
 	
 	fclose(F);// Se cierra el archivo
@@ -293,9 +295,9 @@ void ImportarProductos(Map *name, Map *type, Map *brand){
 	int errorArchivo = leerArchivoCanciones(nombreArchivo, name, type, brand);
 
 	if (errorArchivo)// Envia un mensaje con la situacion que corresponda
-	{printf("Ha ocurrido un error al cargar el archivo o no existe el archivo");}
+	{printf("\n\nHa ocurrido un error al cargar el archivo o no existe el archivo");}
 	else
-	{printf("Productos Exportados Exitosamente");}
+	{printf("\n\nProductos Importados Exitosamente");}
 }
 //-------------------------------------------------------------//
 
@@ -316,19 +318,18 @@ void sobreescribirArchivo(char *Archive, Map *mapa) {
         // Recorre todas las canciones de la lista general
 		// y las guarda en el archivo una por una
         
-        /*------- Guarda los datos de un producto en una linea -------*/
-        fprintf(file, "%s,", onlyProduct->nombre);
+        if(onlyProduct->stock > 0 && onlyProduct->precioIndividual > 0){
+        	/*------- Guarda los datos de un producto en una linea -------*/
+        	fprintf(file, "%s,", onlyProduct->nombre);
 
-		fprintf(file, "%s,", onlyProduct->marca);
+			fprintf(file, "%s,", onlyProduct->marca);
 
-		fprintf(file, "%s,", onlyProduct->tipo);
+			fprintf(file, "%s,", onlyProduct->tipo);
 
-		fprintf(file, "%d,", onlyProduct->stock);
+			fprintf(file, "%d,", onlyProduct->stock);
 
-		fprintf(file, "%d\n", onlyProduct->precioIndividual);
-        
-
-		onlyProduct = nextMap(mapa);
+			fprintf(file, "%d\n", onlyProduct->precioIndividual);
+		}
 	}
 
 	fclose(file);// Cierra el archivo
@@ -414,6 +415,7 @@ void leerProducto (Map *nombre_map, Map *tipo_map, Map *marca_map){
 
 /*------- Imprimir Producto -------*/
 void imprimirProducto(Producto* dato){
+	if(dato->stock <= 0 || dato->precioIndividual <= 0){return;}
 	// Imprime los datos de un producto
 	printf("Nombre: %s\n", dato->nombre);
 	printf(" Marca: %s\n", dato->marca);
