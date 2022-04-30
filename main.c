@@ -621,7 +621,71 @@ void ImprimirMapa(int opt, Map *nameMap, Map *typeMap, Map *brandMap){
 
 //**************************  OPCIÓN 8  ***********************//
 
-/*-------  -------*/
+/*------- Opcion 8 -------*/
+void agregarProdCarrito(Map *mapCarritos, Map *mapNombre)
+{
+	char nombreCarrito[101], nombreProducto[101];
+	int cantidad;
+
+	printf("Introduzca nombre del carrito: ");
+	scanf("%[0-9a-zA-Z ,-]", nombreCarrito);
+	getchar();
+
+	printf("Introduzca nombre del producto a agregar: ");
+	scanf("%[0-9a-zA-Z ,-]", nombreProducto);
+	getchar();
+
+	printf("Introduzca cantidad a agregar: ");
+	scanf("%d", &cantidad);
+	getchar();
+
+	//Busqueda / Creacion carrito.
+	Carrito *carrito = (Carrito *) searchMap(mapCarritos, nombreCarrito);
+	if (!carrito)
+	{
+		printf("Carrito no encontrado, creando uno nuevo...\n");
+
+		carrito = (Carrito *) malloc(sizeof(Carrito));
+
+		carrito->nombreCarrito = (char *) malloc(strlen(nombreCarrito) + 1);
+		strcpy(carrito->nombreCarrito, nombreCarrito);
+
+		carrito->carro = createList();
+		carrito->productosComprar = 0;
+		carrito->precioPagar = 0;
+
+		insertMap(mapCarritos, nombreCarrito, carrito);
+	}
+
+	//Creacion de variable Vendido
+	Vendido *venta = (Vendido *) malloc(sizeof(Vendido));
+
+	venta->comprado = (Producto *) searchMap(mapNombre, nombreProducto);
+	if(!venta->comprado)
+	{
+		printf("No se ha encontrado producto con el nombre indicado");
+		free(venta); //Se libera venta debido al error 
+		return;
+	}
+
+	venta->cantidadComprada = cantidad;
+	if(venta->cantidadComprada > venta->comprado->stock)
+	{
+		printf("La cantidad ingresada es mayor al stock del producto");
+		free(venta);
+		return;
+	}
+
+	venta->precioTotal = venta->comprado->precioIndividual * cantidad;
+
+	//Se anade venta al carrito
+	pushBack(carrito->carro, venta);
+	//carrito->productosComprar++; Esto es por si productosComprar cuenta solo los prod diferentes
+	carrito->productosComprar += cantidad;
+	carrito->precioPagar += venta->precioTotal;
+
+	printf("Agregado %s a carrito %s exitosamente.", nombreProducto, nombreCarrito);
+}
 //-----------------------------------------//
 
 //**************************************************************//
@@ -630,7 +694,29 @@ void ImprimirMapa(int opt, Map *nameMap, Map *typeMap, Map *brandMap){
 
 //**************************  OPCIÓN 9  ***********************//
 
-/*-------  -------*/
+/*------- Opcion 9  -------*/
+void eliminarProdCarrito(Map *mapCarritos)
+{
+	char nombreCarrito[101];
+	Vendido *eliminar;
+
+	printf("Introduzca nombre del carrito: ");
+	scanf("%[0-9a-zA-Z ,-]", nombreCarrito);
+	getchar();
+
+	Carrito *carrito = (Carrito *) searchMap(mapCarritos, nombreCarrito);
+	if (!carrito) {printf("No existe carrito con el nombre indicado\n"); return;}
+
+	eliminar = popBack(carrito->carro);
+	if (!eliminar) {printf("El carrito ya esta vacio\n"); return;}
+
+	carrito->productosComprar -= eliminar->cantidadComprada;
+	carrito->precioPagar -= eliminar->precioTotal;
+
+	printf("Eliminado %s de carrito %s exitosamente\n", eliminar->comprado->nombre, nombreCarrito);
+
+	free(eliminar);
+}
 //-----------------------------------------//
 
 //**************************************************************//
@@ -640,6 +726,50 @@ void ImprimirMapa(int opt, Map *nameMap, Map *typeMap, Map *brandMap){
 //**************************  OPCIÓN 10 ***********************//
 
 /*-------  -------*/
+void concretarCompra(Map *mapCarritos)
+{
+	char nombreCarrito[101], opt;
+	Vendido *aux;
+
+	printf("Introduzca nombre del carrito: ");
+	scanf("%[0-9a-zA-Z ,-]", nombreCarrito);
+	getchar();
+
+	Carrito *carrito = (Carrito *) searchMap(mapCarritos, nombreCarrito);
+	if (!carrito) {printf("No existe carrito con el nombre indicado\n"); return;}
+
+	aux = firstList(carrito->carro);
+	while(aux)
+	{
+		printf("Producto: %s\n", aux->comprado->nombre);
+		printf("Cantidad: %d\n", aux->cantidadComprada);
+		printf("Precio individual: %d\n\n", aux->comprado->precioIndividual);
+
+		aux = nextList(carrito->carro);
+	}
+
+	printf("Cantidad a pagar: %d\n", carrito->precioPagar);
+	
+	do
+	{
+		printf("Introduzca s para concretar la compra o n para cancelar: ");
+		scanf("%c", &opt);
+		getchar();
+		if(opt == 'n' || opt == 'N') return;
+	} while(opt != 's' && opt != 'S' && opt != 'n' && opt != 'N');
+
+	aux = popFront(carrito->carro);
+	while(aux)
+	{
+		aux->comprado->stock -= aux->cantidadComprada;
+		free(aux);
+		aux = popFront(carrito->carro);
+	}
+
+	eraseMap(mapCarritos, carrito->nombreCarrito);
+
+	printf("Compra efectuada.\n");
+}
 //-----------------------------------------//
 
 //**************************************************************//
@@ -723,14 +853,18 @@ int main() {
 			//-----------------------------------------//
 		case 8:
 			/*------- Agregar al carrito -------*/
+			agregarProdCarrito(carritos, nombre);
+
 			break;
 			//-----------------------------------------//
         case 9:
 			/*------- Eliminar del carrito -------*/
+			eliminarProdCarrito(carritos);
 			break;
 			//-----------------------------------------//
 		case 10:
 			/*------- Concretar compra -------*/
+			concretarCompra(carritos);
 			break;
 			//-----------------------------------------//
 		case 11:
