@@ -69,7 +69,7 @@ Hasta ahora todas las funciones están funcionales en casos normales ósea sin q
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ## Structs:
-    Contiene 2 struct, una para las canciones y otra destinada a las listas de reproducción
+Contiene 2 struct, una para las canciones y otra destinada a las listas de reproducción
 
 ~~~
 typedef struct {
@@ -308,27 +308,48 @@ void leerProducto (Map *nombre_map, Map *tipo_map, Map *marca_map)
 ~~~
 ---
 ~~~
-//**************************  OPCIÓN 4  ***********************//
+//**************************  OPCIÓN 4, 5, 6  ***********************//
 
-/*-------  -------*/
+/*------- Imprimir Producto -------*/
+void imprimirProducto(Producto* dato){
+La funcion recibe una variable tipo struct Producto.
+
+Utiliza printf para mostrar en pantalla cada variable del struct con un titulo correspondiente y con un salto de linea entre cada uno.
+}
 //-----------------------------------------//
 
-//**************************************************************//
-~~~
----
-~~~
-//**************************  OPCIÓN 5  ***********************//
+/*------- Comparar cadenas de caracteres -------*/
+int compare_strings(char cadena1[101], char *cadena2)
+{
 
-/*-------  -------*/
+}
 //-----------------------------------------//
 
-//**************************************************************//
-~~~
----
-~~~
-//**************************  OPCIÓN  6 ***********************//
 
-/*-------  -------*/
+/*------- Buscar por tipo  -------*/
+void BusquedaTipo(char* prod, Map* tipo)
+{
+	
+}
+//-----------------------------------------//
+
+/*------- 	Busqueda nombre -------*/
+void BusquedaNombre(char* prod, Map* nombre)
+{
+	
+}
+
+/*------- 	Busqueda marca -------*/
+void BusquedaMarca(char* prod, Map* marca)
+{
+	
+}
+
+/*------- 	Opciòn 4,5,6: Busqueda -------*/
+void BuscarProducto(Map *tipo, Map *nombre, Map* marca, int opt)
+{
+	
+}
 //-----------------------------------------//
 
 //**************************************************************//
@@ -365,7 +386,11 @@ Funcion que nos pide de que forma mostrar el mapa y utiliza la funcion ImprimirM
 ~~~
 //**************************  OPCIÓN 8  ***********************//
 
-/*-------  -------*/
+/*------- Opcion 8: Agregar producto a un carrito -------*/
+void agregarProdCarrito(Map *mapCarritos, Map *mapNombre)
+{
+
+}
 //-----------------------------------------//
 
 //**************************************************************//
@@ -374,7 +399,11 @@ Funcion que nos pide de que forma mostrar el mapa y utiliza la funcion ImprimirM
 ~~~
 //**************************  OPCIÓN 9  ***********************//
 
-/*-------  -------*/
+/*------- Opción 9: Eliminar Producto de un carrito  -------*/
+void eliminarProdCarrito(Map *mapCarritos)
+{
+
+}
 //-----------------------------------------//
 
 //**************************************************************//
@@ -383,7 +412,11 @@ Funcion que nos pide de que forma mostrar el mapa y utiliza la funcion ImprimirM
 ~~~
 //**************************  OPCIÓN 10 ***********************//
 
-/*-------  -------*/
+/*------- Opción 10: Concretar compra y disminuir stock -------*/
+void concretarCompra(Map *mapCarritos)
+{
+
+}
 //-----------------------------------------//
 
 //**************************************************************//
@@ -425,6 +458,7 @@ Crea un while con la condicion 'option != 12'.
 #### A continuacion se explicaran cada caso del switch que esta presente dentro del while:
 ~~~
 /--------------------------------------------------------------------------------------------------------------/
+
  option =  1:
  Solicita un nombre de archivo al usuario. Si existe el archivo, se guardaran los datos
  en los mapas creados al comienzo del main y mandara un mensaje de exito. Si no existe, 
@@ -435,7 +469,9 @@ Crea un while con la condicion 'option != 12'.
  ser el del ejemplo.
  
  Realiza este proceso con la función ImportarProductos().
+
 /--------------------------------------------------------------------------------------------------------------/
+
  option =  2:
  Solicita un nombre de archivo al usuario. Si existe el archivo, se soobrescribe con los datos
  en el mapa que usa los nombres como clave. Si no existe, se crea una archivo con el nombre ingresado
@@ -447,38 +483,50 @@ Crea un while con la condicion 'option != 12'.
  ser el del ejemplo.
  
  Realiza este proceso con la función ExportarProductos().
-/-----------------------------------------a.---------------------------------------------------------------------/
+
+/--------------------------------------------------------------------------------------------------------------/
+
  option =  3:
  
 /--------------------------------------------------------------------------------------------------------------/
+
  option =  4:
  
 /--------------------------------------------------------------------------------------------------------------/
- 
+
+ option =  5:
 /--------------------------------------------------------------------------------------------------------------/
+
  option =  6:
  
 /--------------------------------------------------------------------------------------------------------------/
- option =  7:
-  Imprime todos los productos guardados en pantalla, ya sea por 
-  nombre, tipo o marca, dependiendo de nuestra eleccion.
 
-  Realiza este proceso con la función ImprimirMapa().
+ option =  7:
+ Imprime todos los productos guardados en pantalla, ya sea por nombre, tipo o marca, dependiendo de nuestra eleccion.
+
+ Realiza este proceso con la función ImprimirMapa().
+
 /--------------------------------------------------------------------------------------------------------------/
+
  option =  8:
  
 /--------------------------------------------------------------------------------------------------------------/
+
  option =  9:
  
 /--------------------------------------------------------------------------------------------------------------/
+
  option = 10:
  
 /--------------------------------------------------------------------------------------------------------------/
+
  option = 11:
  
 /--------------------------------------------------------------------------------------------------------------/
+
  default:
  Se entra aquí si el número ingresado no pertenece a ninguna opción del menú.
  Solamente imprime el mensaje "Opcion invalida".
+
 /--------------------------------------------------------------------------------------------------------------/
 ~~~
