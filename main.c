@@ -438,15 +438,17 @@ void BusquedaTipo(char* prod, Map* tipo)
 {
 	Producto* producto; int cont = 0;
 	List* prodList = firstMap(tipo);
+	prod = get_csv_field(prod, 0);
 	
 	while (prodList != NULL)
 		{
 			producto = firstList(prodList);
 			while(producto != NULL)
 			{
+				
 				if(compare_strings(prod, producto->tipo) == 0)
 				{
-					if(cont == 0){printf("\n\nProductos econtrados : \n");}
+					if(cont == 0){printf("Productos econtrados : \n");}
 					imprimirProducto(producto); printf("\n");
 					producto = nextList(prodList);
 					cont++;
@@ -462,18 +464,66 @@ void BusquedaTipo(char* prod, Map* tipo)
 		if(cont == 0 || tipo == NULL){printf("No se a encontrado producto"); return;}
 
 }
+
 //-----------------------------------------//
 
 /*------- 	Busqueda nombre -------*/
 void BusquedaNombre(char* prod, Map* nombre)
 {
-	printf("Funcion no implementada");
+	Producto* producto;
+	producto = firstMap(nombre);
+	prod = get_csv_field(prod, 0);
+	
+			while(producto != NULL)
+			{
+				
+				if(compare_strings(prod, producto->nombre) == 0)
+				{
+					printf("Producto econtrado : \n");
+					imprimirProducto(producto); printf("\n");
+					return;
+				}	
+				else
+				{
+					producto = nextMap(nombre);
+				}
+			}
+		
+		
+		printf("No se a encontrado producto"); return;
+		
 }
 
 /*------- 	Busqueda marca -------*/
 void BusquedaMarca(char* prod, Map* marca)
 {
-	printf("Funcion no implementada");
+	Producto* producto; int cont = 0;
+	List* prodList = firstMap(marca);
+	prod = get_csv_field(prod, 0);
+	
+	while (prodList != NULL)
+		{
+			producto = firstList(prodList);
+			while(producto != NULL)
+			{
+				
+				if(compare_strings(prod, producto->marca) == 0)
+				{
+					if(cont == 0){printf("Productos econtrados : \n");}
+					imprimirProducto(producto); printf("\n");
+					producto = nextList(prodList);
+					cont++;
+				}	
+				else
+				{
+					producto = nextList(prodList);
+				}
+			}
+			prodList = nextMap(marca);
+		}
+		
+		if(cont == 0 || marca == NULL){printf("No se a encontrado producto"); return;}
+
 }
 
 /*------- 	Opciòn 4,5,6: Busqueda -------*/
@@ -482,27 +532,24 @@ void BuscarProducto(Map *tipo, Map *nombre, Map* marca, int opt)
 	char prod[101];
 	switch(opt)
 	{
-		case 4:
-			printf("Ingrese el producto que desea buscar por tipo: ");
-			scanf("%[0-9a-zA-Z ,-]", prod);
-			getchar();
-			char *produ = get_csv_field(prod, 0);
-			BusquedaTipo(produ, tipo);
-			break;
-		case 5:
-			printf("Ingrese el producto que desea buscar por marca\n");
-			scanf("%[0-9a-zA-Z ,-]", prod);
-			getchar();
-			char *produ = get_csv_field(prod, 0);
-			BusquedaMarca(produ, marca);
-			break;
-		case 6:
-			printf("Ingrese el producto que desea buscar por nombre\n");
-			scanf("%[0-9a-zA-Z ,-]", prod);
-			getchar();
-			char *produ = get_csv_field(prod, 0);
-			BusquedaNombre(produ, nombre);
-			break;
+	case 4:
+	printf("Ingrese el producto que desea buscar por tipo\n");
+	scanf("%[0-9a-zA-Z ,-]", prod);
+	getchar();
+	BusquedaTipo(prod, tipo);
+	break;
+	case 5:
+	printf("Ingrese el producto que desea buscar por marca\n");
+	scanf("%[0-9a-zA-Z ,-]", prod);
+	getchar();
+	BusquedaMarca(prod, marca);
+	break;
+	case 6:
+	printf("Ingrese el producto que desea buscar por nombre\n");
+	scanf("%[0-9a-zA-Z ,-]", prod);
+	getchar();
+	BusquedaNombre(prod, nombre);
+	break;
 	}
 }
 //-----------------------------------------//
@@ -842,12 +889,12 @@ int main() {
 			//-----------------------------------------//
 		case 5:
 			/*------- Buscar productos por marca -------*/
-			
+			BuscarProducto(tipo, nombre, marca, option);
 			break;
 			//-----------------------------------------//
 		case 6:
 			/*------- Buscar producto por nombre -------*/
-			
+			BuscarProducto(tipo, nombre, marca, option);
 			break;
 			//-----------------------------------------//
 		case 7:
