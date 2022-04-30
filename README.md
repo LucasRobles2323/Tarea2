@@ -65,8 +65,6 @@ Este sería el menú.
 ## 2. Las opciones que funcionan correctamente y las que no lo hacen indicando posibles causas
 Hasta ahora todas las funciones están funcionales en casos normales ósea sin que el usuario intente apretar letras al azar o colocando datos sin pensar.
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ## Structs:
 Contiene 2 struct, una para las canciones y otra destinada a las listas de reproducción
@@ -94,8 +92,6 @@ typedef struct {
 } Carrito; // Struct que guarda los datos de un carrito de compra
 ~~~
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ## Funciones:
 ---
@@ -214,7 +210,14 @@ Después retorna la lista
 
 void addProductoaMapa(Map *name, Map *type, Map *brand, Producto *product)
 {
-	
+La funcion recipe los mapas y el struct de tipo producto.
+
+Se pregunta si es que el producto esta en el mapa general de key nombre
+    -Si no se encuentra, se inserta en los mapas
+    -Si el tipo de la marca no esta en el mapa, se crea.
+    -Si la marca del producto no esta en el mapa, se crea.
+    
+Si el producto se encuentra en el mapa solo se le suma el stock del producto.    
 }
 //	//-----------------------------------------//
 
@@ -301,7 +304,19 @@ Después imprimira el exito de la operación.
 /*----------------- OPCIÓN 3: Aggregar Producto -----------------*/
 void leerProducto (Map *nombre_map, Map *tipo_map, Map *marca_map)
 {
+La funcion recibe los mapas correspondientes.
+Se declara variables de tipo char y unsigned int para almacenar la informacion.
+Se pregunta al usuario la informacion correspondiente.
 
+Se pregunta si la variable de stock y precio son menores o iguales a 0.
+    -En caso de ser verdadero se muestra por pantalla un error diciendole al usuario que se equivoco.
+    
+Se muestra por pantalla la informacion dada por el usuario y se le pregunta si esta conforme o no.
+    -Si el usuario acepta se crea la struct de tipo producto con la informacion puesta.
+    -Despues se inserta la struct creada en los mapas.
+    -Se le dice al usuario que se guardo perfectamente el producto.
+    
+En caso de que el usuario no acepte se dira al usuario que no se guardo el producto.  
 }
 //-------------------------------------------------------------//
 
@@ -430,7 +445,28 @@ void concretarCompra(Map *mapCarritos)
 
 //----------------- Opción 11: Mostrar Carrito ------------------//
 void mostrarCarrito (Map *carro){
+La funcion recibe el mapa de carrito.
 
+se declara carrinho de tipo carrito igual al firstMap de carro.
+
+Se pregunta si carrinho es igual a NULL
+    -Si es asi es porque no existe aun un carrito con productos.
+    -Se le dice al usuario que aun no crea el carrito y se retorna.
+    
+Se dice que se empezara a mostrar el carrito.
+Con un while mientras carrinho sea distinto de NULL
+    -Se muestra el nombre del carrito.
+    -Se declara una variable llamado product de tipo Vendido que es igual a al firstList de la lista relacionada al carrito.
+    
+    -Un while de producto sea distinto de NULL
+              -Se muestra el producto relacionado al carrito que es de tipo vendidos.
+              -Muestra la cantidad que se comprara de ese producto.
+              -Muestra el total a pagar de ESE producto.
+	      -Product sera igual al nextList.      
+    	
+    -Se muestra la cantidad de productos que contiene el carrito.
+    -Se muestra el Total a pagar.
+    -Carrinho = nextMap.
 }
 //-----------------------------------------//
 
@@ -493,7 +529,18 @@ Crea un while con la condicion 'option != 12'.
 /--------------------------------------------------------------------------------------------------------------/
 
  option =  3:
+ Solicita 5 datos al usuario (nombre, marca, tipo, stock y precio) una vez hecho se le muestra al usuario
+ si esta conforme o si esta correcto la informacion dada.
  
+ Pero en caso de que el usuario coloque stock o precio menor o igual a 0 este dara un error diciendole al 
+ usuario que ingreso datos erroneos.
+ 
+ En caso de que el usuario confirme que todo esta bien esta se transformara a traves de una funcion en una struct
+ de tipo producto para que esta sea añadida a los mapas  correcpondientes, despues se le dice al usuario que 
+ todo el proceso se realizo con exito.
+ 
+ En caso de que el usuario no este conforme este entregara un aviso que no se guardo el producto en el almacen.
+ Realiza este proceso con la función leerProducto().
 /--------------------------------------------------------------------------------------------------------------/
 
  option =  4:
@@ -527,7 +574,9 @@ Crea un while con la condicion 'option != 12'.
 /--------------------------------------------------------------------------------------------------------------/
 
  option = 11:
+ Muestra el mapa Carrito.
  
+ Realiza este proceso con la función mostrarCarrito().
 /--------------------------------------------------------------------------------------------------------------/
 
  default:
