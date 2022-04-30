@@ -389,6 +389,12 @@ void leerProducto (Map *nombre_map, Map *tipo_map, Map *marca_map){
 	scanf("%d", &precio);
 	getchar();
 
+	if (stock <= 0 || precio <= 0){
+		printf ("Siga las instrucciones porfavor\n");
+		printf ("Tanto el stock como el precio tienen que ser mayores que 0\n");
+		return;
+	}
+
 	printf("\nLa informacion  del producto escrito: \n");
 	printf("Nombre: %s\n", get_csv_field(nombre, 0));
 	printf("Tipo: %s\n", get_csv_field(tipo, 0));
