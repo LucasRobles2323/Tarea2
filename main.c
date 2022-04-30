@@ -464,66 +464,18 @@ void BusquedaTipo(char* prod, Map* tipo)
 		if(cont == 0 || tipo == NULL){printf("No se a encontrado producto"); return;}
 
 }
-
 //-----------------------------------------//
 
 /*------- 	Busqueda nombre -------*/
 void BusquedaNombre(char* prod, Map* nombre)
 {
-	Producto* producto;
-	producto = firstMap(nombre);
-	prod = get_csv_field(prod, 0);
-	
-			while(producto != NULL)
-			{
-				
-				if(compare_strings(prod, producto->nombre) == 0)
-				{
-					printf("Producto econtrado : \n");
-					imprimirProducto(producto); printf("\n");
-					return;
-				}	
-				else
-				{
-					producto = nextMap(nombre);
-				}
-			}
-		
-		
-		printf("No se a encontrado producto"); return;
-		
+	printf("Funcion no implementada");
 }
 
 /*------- 	Busqueda marca -------*/
 void BusquedaMarca(char* prod, Map* marca)
 {
-	Producto* producto; int cont = 0;
-	List* prodList = firstMap(marca);
-	prod = get_csv_field(prod, 0);
-	
-	while (prodList != NULL)
-		{
-			producto = firstList(prodList);
-			while(producto != NULL)
-			{
-				
-				if(compare_strings(prod, producto->marca) == 0)
-				{
-					if(cont == 0){printf("Productos econtrados : \n");}
-					imprimirProducto(producto); printf("\n");
-					producto = nextList(prodList);
-					cont++;
-				}	
-				else
-				{
-					producto = nextList(prodList);
-				}
-			}
-			prodList = nextMap(marca);
-		}
-		
-		if(cont == 0 || marca == NULL){printf("No se a encontrado producto"); return;}
-
+	printf("Funcion no implementada");
 }
 
 /*------- 	Opciòn 4,5,6: Busqueda -------*/
@@ -669,21 +621,19 @@ void ImprimirMapa(int opt, Map *nameMap, Map *typeMap, Map *brandMap){
 
 //**************************  OPCIÓN 8  ***********************//
 
-/*------- Opcion 8: Agregar producto a un carrito -------*/
+/*------- Opcion 8 -------*/
 void agregarProdCarrito(Map *mapCarritos, Map *mapNombre)
 {
-	char nameCarrito[101], nameProducto[101];
+	char nombreCarrito[101], nombreProducto[101];
 	int cantidad;
 
 	printf("Introduzca nombre del carrito: ");
-	scanf("%[0-9a-zA-Z ,-]", nameCarrito);
+	scanf("%[0-9a-zA-Z ,-]", nombreCarrito);
 	getchar();
-	char *nombreCarrito = get_csv_field(nameCarrito, 0);
 
 	printf("Introduzca nombre del producto a agregar: ");
-	scanf("%[0-9a-zA-Z ,-]", nameProducto);
+	scanf("%[0-9a-zA-Z ,-]", nombreProducto);
 	getchar();
-	char *nombreProducto = get_csv_field(nameProducto, 0);
 
 	printf("Introduzca cantidad a agregar: ");
 	scanf("%d", &cantidad);
@@ -744,16 +694,15 @@ void agregarProdCarrito(Map *mapCarritos, Map *mapNombre)
 
 //**************************  OPCIÓN 9  ***********************//
 
-/*------- Opción 9: Eliminar Producto de un carrito  -------*/
+/*------- Opcion 9  -------*/
 void eliminarProdCarrito(Map *mapCarritos)
 {
-	char nameCarrito[101];
+	char nombreCarrito[101];
 	Vendido *eliminar;
 
 	printf("Introduzca nombre del carrito: ");
-	scanf("%[0-9a-zA-Z ,-]", nameCarrito);
+	scanf("%[0-9a-zA-Z ,-]", nombreCarrito);
 	getchar();
-	char *nombreCarrito = get_csv_field(nameCarrito, 0);
 
 	Carrito *carrito = (Carrito *) searchMap(mapCarritos, nombreCarrito);
 	if (!carrito) {printf("No existe carrito con el nombre indicado\n"); return;}
@@ -776,16 +725,15 @@ void eliminarProdCarrito(Map *mapCarritos)
 
 //**************************  OPCIÓN 10 ***********************//
 
-/*------- Opción 10: Concretar compra y disminuir stock -------*/
+/*-------  -------*/
 void concretarCompra(Map *mapCarritos)
 {
-	char nameCarrito[101], opt;
+	char nombreCarrito[101], opt;
 	Vendido *aux;
 
 	printf("Introduzca nombre del carrito: ");
-	scanf("%[0-9a-zA-Z ,-]", nameCarrito);
+	scanf("%[0-9a-zA-Z ,-]", nombreCarrito);
 	getchar();
-	char *nombreCarrito = get_csv_field(nameCarrito,0);
 
 	Carrito *carrito = (Carrito *) searchMap(mapCarritos, nombreCarrito);
 	if (!carrito) {printf("No existe carrito con el nombre indicado\n"); return;}
@@ -825,19 +773,36 @@ void concretarCompra(Map *mapCarritos)
 //-----------------------------------------//
 
 //**************************************************************//
+//-----------------OPCIÓN 11: Mostrar Carrito------------------//
+void mostrarCarrito (Map *carro){
+	Carrito *carrinho = (Carrito *) firstMap(carro);
 
-
-
-//**************************  OPCIÓN 11  ***********************//
-
+	if (carrinho == NULL){
+		printf ("No hay ningun carrito creado\n");
+		printf ("\n");
+		return;
+	}
+    
+	printf ("Mostrando Carrito\n");
+	while (carrinho != NULL){
+		printf ("Nombre del carrito: %s\n", carrinho->nombreCarrito);
+		Vendido *product = firstList (carrinho->carro);
+		while (product != NULL){
+			imprimirProducto(product->comprado);
+			printf ("Cantidad a comprar : %i\n", product->cantidadComprada);
+			printf ("Precio total del producto : %i\n", product->precioTotal);
+			product = nextList (carrinho->carro);
+		}
+        printf ("---------------------------------------------------------------\n");
+		printf ("Cantidad de productos en el carrito: %d\n", carrinho->productosComprar);
+		printf ("Total precio a pagar: %d\n", carrinho->precioPagar);
+		carrinho = nextMap (carro);
+	}
+}
 /*-------  -------*/
 //-----------------------------------------//
 
 //**************************************************************//
-
-
-
-
 
 
 
@@ -889,12 +854,12 @@ int main() {
 			//-----------------------------------------//
 		case 5:
 			/*------- Buscar productos por marca -------*/
-			BuscarProducto(tipo, nombre, marca, option);
+			
 			break;
 			//-----------------------------------------//
 		case 6:
 			/*------- Buscar producto por nombre -------*/
-			BuscarProducto(tipo, nombre, marca, option);
+			
 			break;
 			//-----------------------------------------//
 		case 7:
@@ -921,7 +886,7 @@ int main() {
 			//-----------------------------------------//
 		case 11:
 			/*------- Mostrar carritos de compra -------*/
-			
+			mostrarCarrito (carritos);
 			break;
 			//-----------------------------------------//
         default:
