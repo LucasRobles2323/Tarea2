@@ -13,7 +13,7 @@ Estudiantes PUCV curso: ICI2240-1  ESTRUCTURA DE DATOS
 - ### Lucas Robles: 
     Pts premio/castigo: 0.
 
-    Siento que al comenzar no tenía la materia tan clara como creía, no pude ni empezar hasta el ejemplo del profe de como llenar la lista, también hubo veces que tuve que borrar toda una funcion por no entender que salía mal. Y al hacerla de 0 más lentamente me funcionaba correctamente. Cuando un compañero del grupo no entendia una de las funciones que hice, se las explicaba.
+    Siento que podria mejorar mi eficiencia, siento que hice muchos commit, para despues darme cuenta de un pequeño detalle que falta o sobra, haciendo muchos commit con cambios pequeñps, ademas de no manejar bien el .md tambien me hizo hacer commit con pequeños cambios. Otra cosa es el de informarme mejor porque no habia hecho el git config, asi que hay muchos commit que no aparece quien los hizo
 
 
 - ### Sebastián Aguilera: 
