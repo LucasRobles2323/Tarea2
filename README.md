@@ -303,6 +303,30 @@ Después imprimira el exito de la operación.
 //**************************  OPCIÓN 3  ***********************//
 
 /*----------------- OPCIÓN 3: Aggregar Producto -----------------*/
+void mayuscula (char *ptrCadena){
+La funcion le llega una string de tipo char
+
+Se declara las 2 variables uno tipo int que se usara como verificador que sera 0 y 
+otro booleano con la misma finalidad pero esta verificara si esta en una palabra o 
+en un espacio
+
+Se usa un for para recorrer el string
+    -(if)Si en la posicion i de la cadena es un espacio 
+            -Entonces el valor booleano pasa a ser falso.
+    -(else)Caso contrario habra otro if: 
+         -(if)si ese valor booleano es verdadero o falso
+              -Si es verdadero la posicion i de la string se lo pone en minuscula
+         -(else)Caso contrario habra otro if: 
+	      -(if)Preguntara sobre el valor del verificador es igual a 0
+                     -La posicion i del string se le pondra en mayuscula
+	             -Se le sumara +1 al verificador
+	             -Esto con la finalidad de que la primera letra del string sea mayuscula 
+	              y el resto solamente sea minuscula
+              -(else)Si el if no se cumple: 
+	             -La posicion i del string sera covnertido a minuscula 
+                     -La variable booleana pasa a ser verdadero
+}
+
 void leerProducto (Map *nombre_map, Map *tipo_map, Map *marca_map)
 {
 La funcion recibe los mapas correspondientes.
@@ -311,6 +335,9 @@ Se pregunta al usuario la informacion correspondiente.
 
 Se pregunta si la variable de stock y precio son menores o iguales a 0.
     -En caso de ser verdadero se muestra por pantalla un error diciendole al usuario que se equivoco.
+    
+Con la funcion mayuscula se pasan los datos nombre, tipo y marca para colocar la primera letra en 
+mayuscula y el resto en minuscula    
     
 Se muestra por pantalla la informacion dada por el usuario y se le pregunta si esta conforme o no.
     -Si el usuario acepta se crea la struct de tipo producto con la informacion puesta.
