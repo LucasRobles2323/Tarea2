@@ -419,9 +419,31 @@ void leerProducto (Map *nombre_map, Map *tipo_map, Map *marca_map){
 
 //**************************  OPCIÓN 4, 5 ,6  ***********************//
 
+/*------- Imprimir Producto -------*/
+void imprimirProducto(Producto* dato){
+	if(dato->stock <= 0 || dato->precioIndividual <= 0){return;}
+	// Imprime los datos de un producto
+	printf("Nombre: %s\n", dato->nombre);
+	printf(" Marca: %s\n", dato->marca);
+	printf("  Tipo: %s\n", dato->tipo);
+	printf(" Stock: %u\n", dato->stock);
+	printf("Precio: %u\n", dato->precioIndividual);
+}
+//-----------------------------------------//
+
+/*------- Comparar cadenas de caracteres -------*/
+int compare_strings(char cadena1[101], char *cadena2)
+{   size_t largo = sizeof(cadena2)/sizeof(char); // SIRVE PARA ENCONTRAR EL LARGO DE LA CADENA DINAMICA
+    for(int i = 0; i < largo; i++){
+		if (cadena1[i] != cadena2[i]) {return 1;}
+		}return 0;
+}
+//-----------------------------------------//
+
+
 void BusquedaTipo(char* prod, Map* tipo)
 {
-	Producto* producto; int cont = 0;
+	Producto* producto; int cont = 0; int cont_invalid = 0;
 	List* prodList = firstMap(tipo);
 	prod = get_csv_field(prod, 0);
 	
@@ -433,9 +455,12 @@ void BusquedaTipo(char* prod, Map* tipo)
 				
 				if(compare_strings(prod, producto->tipo) == 0)
 				{
-					
+
+					if(cont == 0){printf("Productos econtrados respecto al tipo '%s' : \n \n", producto->tipo);}
 					if(producto->stock > 0 && (producto->precioIndividual) > 0){
-					imprimirProducto(producto); printf("\n");}
+					imprimirProducto(producto); printf("\n");} 
+					else {printf("\n Producto de nombre %s, precio invalido o stock vacio. Intente ingresar un producto con existencias. \n", producto->nombre);
+					cont_invalid++;}
 					producto = nextList(prodList);
 					cont++;
 					
@@ -447,8 +472,8 @@ void BusquedaTipo(char* prod, Map* tipo)
 			}
 			prodList = nextMap(tipo);
 		}
-		
-		if(cont == 0 || tipo == NULL){printf("No se a encontrado producto"); return;}
+		if(cont_invalid == 0){
+		if(cont == 0 || tipo == NULL){printf("No se fue posible encontrar producto/s valido/s"); return;}}
 
 }
 
@@ -457,7 +482,7 @@ void BusquedaTipo(char* prod, Map* tipo)
 /*------- 	Busqueda nombre -------*/
 void BusquedaNombre(char* prod, Map* nombre)
 {
-	Producto* producto;
+	Producto* producto; int cont_invalid = 0;
 	producto = firstMap(nombre);
 	prod = get_csv_field(prod, 0);
 	
@@ -467,10 +492,11 @@ void BusquedaNombre(char* prod, Map* nombre)
 				if(compare_strings(prod, producto->nombre) == 0)
 				{
 					
-					printf("Producto econtrado : \n");
+					printf("Producto econtrado respecto al nombre '%s': \n \n", producto->nombre);
 					if(producto->stock > 0 && (producto->precioIndividual) > 0){
 					imprimirProducto(producto); printf("\n");
-					}
+					} else {printf("\n Producto de nombre %s, precio invalido o stock vacio. Intente ingresar un producto con existencias. \n", producto->nombre);
+					 cont_invalid++;}
 					return;
 				}	
 				else
@@ -479,8 +505,8 @@ void BusquedaNombre(char* prod, Map* nombre)
 				}
 			}
 		
-		
-		printf("No se a encontrado producto"); return;
+		if(cont_invalid == 0){
+		printf("No se a encontrado el producto producto especificado"); return;}
 		
 }
 
@@ -499,9 +525,11 @@ void BusquedaMarca(char* prod, Map* marca)
 				
 				if(compare_strings(prod, producto->marca) == 0)
 				{
-					if(cont == 0){printf("Productos econtrados : \n");}
+					if(cont == 0){printf("Productos econtrados respecto a la marca '%s' : \n \n", producto->marca);}
 					if(producto->stock > 0 && (producto->precioIndividual) > 0){
 					imprimirProducto(producto); printf("\n");}
+					else {printf("\n Producto de nombre %s, precio invalido o stock vacio. Intente ingresar un producto con existencias. \n", producto->nombre);
+					cont_invalid++;}
 					producto = nextList(prodList);
 					cont++;
 				}	
@@ -512,12 +540,12 @@ void BusquedaMarca(char* prod, Map* marca)
 			}
 			prodList = nextMap(marca);
 		}
-		
-		if(cont == 0 || marca == NULL){printf("No se a encontrado producto valido"); return;}
+		if(cont_invalid == 0){
+		if(cont == 0 || marca == NULL){printf("No se fue posible encontrar producto/s valido/s"); return;}}
 
 }
 
-/*------- 	Opciòn 4,5,6: Busqueda -------*/
+/*------- 	Opción 4,5,6: Búsqueda -------*/
 void BuscarProducto(Map *tipo, Map *nombre, Map* marca, int opt)
 {
 	char prod[101];
