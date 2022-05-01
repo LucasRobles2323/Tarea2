@@ -339,7 +339,8 @@ Utiliza printf para mostrar en pantalla cada variable del struct con un titulo c
 /*------- Comparar cadenas de caracteres -------*/
 int compare_strings(char cadena1[101], char *cadena2)
 {
-
+  Compara 2 cadenas, similar a strcpm, si las 2 cadenas tienen un 100% de coincidencias quiere decir que son iguales. Compara 
+  carácter a carácter.
 }
 //-----------------------------------------//
 
@@ -347,7 +348,9 @@ int compare_strings(char cadena1[101], char *cadena2)
 /*------- Buscar por tipo  -------*/
 void BusquedaTipo(char* prod, Map* tipo)
 {
-	
+	Utilizando la función SearchMap encuentra la posición donde se encuentra la lista deseada, una vez la encontramos 
+	crea un ciclo que nos permite recorrer la lista buscando la cadena con 100% de coincidencias, si no es el caso entonces 
+	avisa al operador que no se a encontrado ningún producto.
 }
 //-----------------------------------------//
 
@@ -360,12 +363,17 @@ void BusquedaNombre(char* prod, Map* nombre)
 /*------- 	Busqueda marca -------*/
 void BusquedaMarca(char* prod, Map* marca)
 {
+	Utilizando SearchMap, la función localiza la posición donde debería estar la lista que deseamos recorrer ( en este caso la lista de marcas)
+	y crea un ciclo que recorre uno a uno los nodos de la lista comparando para encontrar la cadena indicada, si no la encuentra
+	avisa al operador que no hay ningún producto coincidente.
 	
 }
 
 /*------- 	Opciòn 4,5,6: Busqueda -------*/
 void BuscarProducto(Map *tipo, Map *nombre, Map* marca, int opt)
 {
+	Es similar a un "lobby", donde según los criterios ingresados a la función ingresa a los distintos casos posibles. Cada caso
+	escanea la cadena a consultar.
 	
 }
 //-----------------------------------------//
