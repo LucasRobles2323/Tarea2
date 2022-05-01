@@ -451,7 +451,20 @@ void eliminarProdCarrito(Map *mapCarritos)
 /*------- Opción 10: Concretar compra y disminuir stock -------*/
 void concretarCompra(Map *mapCarritos)
 {
+  La funcion pide al usuario que ingrese el nombre del carrito cuya compra desea efectuar.
 
+  Busca el carrito y finaliza la funcion si es que no sirve.
+
+  Un ciclo while que cumple dos funciones:
+    -Mostrar los productos del carrito.
+    -Confirmar que el stock disponible corresponde con la cantidad de X producto
+     (Esto es por si el stock de un producto cambio luego de ingresarlo al carrito).
+
+  Muestra la cantidad a pagar y luego pide al usuario que confirme la compra.
+
+  Un ciclo while se encarga de ir actualizando el stock e ir eliminando los productos de la lista del carrito.
+
+  Finalmente elimina el carrito.
 }
 //-----------------------------------------//
 

@@ -802,6 +802,7 @@ void concretarCompra(Map *mapCarritos)
 	getchar();
 	char *nombreCarrito = get_csv_field(nameCarrito,0);
 
+	//Busca el carrito
 	Carrito *carrito = (Carrito *) searchMap(mapCarritos, nombreCarrito);
 	if (!carrito) {printf("No existe carrito con el nombre indicado\n"); return;}
 
@@ -813,6 +814,7 @@ void concretarCompra(Map *mapCarritos)
 		printf("Precio individual: %d\n", aux->comprado->precioIndividual);
 		printf("Cantidad: %d (Disponible: %d)\n", aux->cantidadComprada, aux->comprado->stock);
 
+		//Confirma si hay stock suficiente (Por si el stock ha cambiado desde que se agrego el producto)
 		if(aux->cantidadComprada > aux->comprado->stock)
 		{
 			printf("No hay stock suficiente, se actualizara automaticamente al stock disponible\n");
@@ -833,6 +835,7 @@ void concretarCompra(Map *mapCarritos)
 
 	printf("Cantidad a pagar: %d\n", carrito->precioPagar);
 	
+	//Pide al usuario que confirme la compra
 	do
 	{
 		printf("Introduzca s para concretar la compra o n para cancelar: ");
@@ -850,7 +853,7 @@ void concretarCompra(Map *mapCarritos)
 		aux = popFront(carrito->carro);
 	}
 
-
+	//Elimina el carrito
 	eraseMap(mapCarritos, carrito->nombreCarrito);
 
 	printf("Compra efectuada.\n");
