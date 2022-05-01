@@ -19,7 +19,7 @@ Estudiantes PUCV curso: ICI2240-1  ESTRUCTURA DE DATOS
 - ### Sebastián Aguilera: 
     Pts premio/castigo: 0.
 
-    En mi opinión a mi me faltó comunicarme mejor con ustedes, a veces hacía una función y no me fijaba si daba algún error en el replit si no que me quedaba con el resultado de mi PC entonces después encontraban algún error en mi código y yo no estaba para solucionarlo.
+    Creo que debería organizar mejor mi manera de trabajar ya que tarde bastante en hacer las funciones que se me designaron debido a que no tenia un planeado bien como hacerlo.
 
 - ### Gerard Espinoza: 
     Pts premio/castigo: 0.
