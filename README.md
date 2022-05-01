@@ -7,7 +7,7 @@ Estudiantes PUCV curso: ICI2240-1  ESTRUCTURA DE DATOS
 - ### Ademir Muñoz: 
     Pts premio/castigo: 0.
 
-Siento que deberia mejorar la forma de hacer los algoritmos siempre encuentro una falla en estos y tengo que modificarlo para que despues aparesca otro originado por
+    Siento que deberia mejorar la forma de hacer los algoritmos siempre encuentro una falla en estos y tengo que modificarlo para que despues aparesca otro originado por
 el cambio anterior y asi.
 
 
