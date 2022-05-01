@@ -7,7 +7,8 @@ Estudiantes PUCV curso: ICI2240-1  ESTRUCTURA DE DATOS
 - ### Ademir Muñoz: 
     Pts premio/castigo: 0.
 
-    Siento que de manera individual hice poco y nada para la tarea estaba perdido con eso de la lista enlazada, me costo entenderlo. Así que mi aspecto a mejorar seria estudiar mas la materia para poder aportar mas próximamente.
+Siento que deberia mejorar la forma de hacer los algoritmos siempre encuentro una falla en estos y tengo que modificarlo para que despues aparesca otro originado por
+el cambio anterior y asi.
 
 
 - ### Lucas Robles: 
