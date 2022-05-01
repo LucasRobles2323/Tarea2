@@ -771,10 +771,11 @@ void eliminarProdCarrito(Map *mapCarritos)
 	Carrito *carrito = (Carrito *) searchMap(mapCarritos, nombreCarrito);
 	if (!carrito) {printf("No existe carrito con el nombre indicado\n"); return;}
 
-
+	// Elimina el ultimo producto ingresado al carrito
 	eliminar = popBack(carrito->carro);
 	if (!eliminar) {printf("El carrito ya esta vacio\n"); return;}
 
+	// Actualiza los datos
 	carrito->productosComprar -= eliminar->cantidadComprada;
 	carrito->precioPagar -= eliminar->precioTotal;
 

@@ -415,7 +415,13 @@ Funcion que nos pide de que forma mostrar el mapa y utiliza la funcion ImprimirM
 /*------- Opcion 8: Agregar producto a un carrito -------*/
 void agregarProdCarrito(Map *mapCarritos, Map *mapNombre)
 {
+  La funcion comienza pidiendo al usuario que ingrese los datos del carrito al que desea agregar un producto y del producto en cuestión.
 
+  Usando searchmap busca el carrito y si este no existe crea uno nuevo.
+
+  Luego se crea la variable de tipo Vendido que llevará registro del producto, su cantidad y precio total, a su vez revisa si hay stock suficiente.
+
+  La variable de tipo Vendido se añade a la lista enlazada del carrito.
 }
 //-----------------------------------------//
 
@@ -428,7 +434,11 @@ void agregarProdCarrito(Map *mapCarritos, Map *mapNombre)
 /*------- Opción 9: Eliminar Producto de un carrito  -------*/
 void eliminarProdCarrito(Map *mapCarritos)
 {
+  La funcion pide el nombre del carrito para eliminar el ultimo producto ingresado.
 
+  Busca el carrito con searchmap y luego utiliza popBack para eliminar el producto en cuestion de la lista enlazada.
+
+  Finalmente actualiza los datos del carrito.
 }
 //-----------------------------------------//
 
