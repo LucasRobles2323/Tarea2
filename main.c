@@ -359,6 +359,40 @@ void ExportarProductos(Map *name){
 //**************************  OPCIÓN 3  ***********************//
 
 /*----------------- OPCIÓN 3: Agregar Producto -----------------*/
+void mayuscula (char *ptrCadena){
+    
+	int verificador = 0;
+	//Recorre la palabra hasta que encuentra la primera letra
+    bool dentro_de_palabra = false; // Al principio esta fuera
+    for (int i = 0; ptrCadena[i] != '\0'; i++)
+    {
+        if (ptrCadena[i] == ' ')
+        {
+            dentro_de_palabra = false; // Fuera de palabra
+        }
+        else
+        {
+            if (dentro_de_palabra)
+            {
+                // Ya estabamos dentro de una palabra
+                ptrCadena[i] = tolower(ptrCadena[i]);
+            }
+            else
+            {
+               if (verificador == 0){
+
+				   dentro_de_palabra = true;
+                   ptrCadena[i] = toupper(ptrCadena[i]);
+				   verificador++;
+			   }
+
+			   dentro_de_palabra = true;
+			   ptrCadena[i] = tolower(ptrCadena[i]);
+            }
+        }
+    }
+}
+
 void leerProducto (Map *nombre_map, Map *tipo_map, Map *marca_map){
 	// Realiza la operacion correspondiente a la opcion 3 del menu
 	// , es decir, guarda un producto ingresado por el usuario
@@ -368,7 +402,8 @@ void leerProducto (Map *nombre_map, Map *tipo_map, Map *marca_map){
 	char marca[101];
 	unsigned int stock;
 	unsigned int precio;
-
+    
+	//aqui se le pregunta los datos al usuario
 	printf("Introduzca el nombre del producto: ");       
 	scanf("%[0-9a-zA-Z ,-]", nombre);
 	getchar();
@@ -381,35 +416,44 @@ void leerProducto (Map *nombre_map, Map *tipo_map, Map *marca_map){
 	scanf("%[0-9a-zA-Z ,-]", marca);
 	getchar();
 
-	printf("Introduzca el stock del producto: ");
+	printf("Introduzca el stock del producto (Colocar numero mayor a 0): ");
 	scanf("%d", &stock);
 	getchar();
 
-	printf("Introduzca el precio del producto: ");
+	printf("Introduzca el precio del producto (Colocar numero mayor a 0): ");
 	scanf("%d", &precio);
 	getchar();
 
-	if (stock <= 0 || precio <= 0){
+    if (stock <= 0 || precio <= 0){
 		printf ("Siga las instrucciones porfavor\n");
 		printf ("Tanto el stock como el precio tienen que ser mayores que 0\n");
 		return;
 	}
+    
 
+	//aqui se le coloca mayuscula a la primera letra de la palabra
+    mayuscula (nombre);
+	mayuscula(tipo);
+	mayuscula(marca);
+    
+	//Se muestra por pantalla los datos colocados por el usuario
 	printf("\nLa informacion  del producto escrito: \n");
-	printf("Nombre: %s\n", get_csv_field(nombre, 0));
-	printf("Tipo: %s\n", get_csv_field(tipo, 0));
-	printf("Marca: %s\n", get_csv_field(marca, 0));
+	printf("Nombre: %s\n",nombre);
+	printf("Tipo: %s\n", tipo);
+	printf("Marca: %s\n", marca);
 	printf("Stock: %d\n", stock);
 	printf("Precio: %d\n", precio);
 	printf("Ingrese ENTER para confirmar o 'n' para cancelar");
 	
 	// El usuario decide si guardar o no el producto con los datos que ingreso
 	if (getchar() != 'n') { 
-		produkt = crearProducto(get_csv_field(nombre, 0), get_csv_field(tipo, 0), 
-		                        get_csv_field(marca, 0), stock, precio);
+		produkt = crearProducto(nombre, tipo, marca, stock, precio);
 		addProductoaMapa(nombre_map, tipo_map, marca_map, produkt);
-		printf("Producto guardada exitosamente");
+		printf("Producto guardado exitosamente en el almacen");
+		return;
 	}
+
+	printf ("No se guardo el producto al almacen");
 }
 //-------------------------------------------------------------//
 
