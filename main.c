@@ -499,15 +499,19 @@ int compare_strings(char cadena1[101], char *cadena2)
 //----------- Búsqueda tipo -------------//
 
 void BusquedaTipo(char* prod, Map* tipo)
-{
+{// Busca en el mapa a través de searchMap la posicion donde debería estar el producto, luego
+// a través de una comparación de cadenas se busca en la lista asociada.
 	Producto* producto; int cont = 0; int cont_invalid = 0;
-	prod = get_csv_field(prod, 0);
+	prod = get_csv_field(prod, 0); // Transforma la cadena para que tenga un formato general y facilite la comparacion
 	
 	List* prodList = (List*) searchMap(tipo, prod);
-	producto = firstList(prodList);
+
+
+			producto = firstList(prodList);
+
+
 			while(producto != NULL)
 			{
-				
 				if(compare_strings(prod, producto->tipo) == 0)
 				{
 
@@ -518,16 +522,15 @@ void BusquedaTipo(char* prod, Map* tipo)
 					cont_invalid++;}
 					producto = nextList(prodList);
 					cont++;
-					
 				}	
 				else
 				{
 					producto = nextList(prodList);
 				}
-			}
-		if(cont_invalid == 0){
-		if(cont == 0 || tipo == NULL){printf("No se fue posible encontrar producto/s valido/s."); return;}}
-
+			
+	}
+		if(cont_invalid == 0)
+		if(cont == 0 || tipo == NULL){{printf("No se fue posible encontrar producto/s valido/s.");}}
 }
 
 //-----------------------------------------//
@@ -535,26 +538,26 @@ void BusquedaTipo(char* prod, Map* tipo)
 
 /*------- Busqueda marca -------*/
 void BusquedaMarca(char* prod, Map* marca)
-{
-	Producto* producto; int cont = 0; int cont_invalid = 0;
-	prod = get_csv_field(prod, 0);
-	List* prodList = (List*) searchMap(marca, prod);
-	producto = firstList(prodList);
-	
-	
+{// Recorre 1 a 1 los elementos de la lista asociada a la posicon del mapa
+// de esta manera se busca el elemnto deseado.
+	Producto* producto; int cont = 0; 
+	int cont_invalid = 0; 
+	prod = get_csv_field(prod, 0); // Transforma la cadena para que tenga un formato general y facilite la comparacion
+
+			List* prodList = (List*) searchMap(marca, prod); 
 			producto = firstList(prodList);
-			while(producto != NULL)
+			while(producto != NULL) // se recorre la lista
 			{
 				
-				if(compare_strings(prod, producto->marca) == 0)
+				if(compare_strings(prod, producto->marca) == 0) 
 				{
 					if(cont == 0){printf("Productos econtrados respecto a la marca '%s' : \n \n", producto->marca);}
-					if(producto->stock > 0 && (producto->precioIndividual) > 0){
+					if(producto->stock > 0 && (producto->precioIndividual) > 0){ // verificacion validéz del producto
 					imprimirProducto(producto); printf("\n");}
 					else {printf("\n Producto de nombre %s, precio invalido o stock vacio. Intente ingresar un producto con existencias. \n", producto->nombre);
-					cont_invalid++;}
+					cont_invalid++;} 
 					producto = nextList(prodList);
-					cont++;
+					cont++; 
 				}	
 				else
 				{
@@ -563,7 +566,6 @@ void BusquedaMarca(char* prod, Map* marca)
 			}
 		if(cont_invalid == 0){
 		if(cont == 0 || marca == NULL){printf("No se fue posible encontrar producto/s valido/s."); return;}}
-
 }
 
 //-----------------------------------------//
@@ -572,15 +574,14 @@ void BusquedaMarca(char* prod, Map* marca)
 /*------- 	Busqueda nombre -------*/
 void BusquedaNombre(char* prod, Map* nombre)
 {
-	int cont_invalid = 0;
-	prod = get_csv_field(prod, 0);
-	Producto* producto = (Producto*) searchMap(nombre, prod);
-	
-	
-		if ((producto != NULL) && (nombre != NULL)){
-				if(compare_strings(prod, producto->nombre) == 0 && producto != NULL)
+	// Se busca con SearchMap la ubicación específica del mapa del elemento deseado, una vez retorna la posicion
+	// comprueba que la posicion no sea nula, en caso de serlo, el producto no existe
+	int cont_invalid = 0; 
+	prod = get_csv_field(prod, 0); 
+
+				Producto* producto = (Producto*) searchMap(nombre, prod);
+				if(producto != NULL)
 				{
-					
 					printf("Producto econtrado respecto al nombre '%s': \n \n", producto->nombre);
 					if(producto->stock > 0 && (producto->precioIndividual) > 0){
 					imprimirProducto(producto); printf("\n");
@@ -588,30 +589,36 @@ void BusquedaNombre(char* prod, Map* nombre)
 					 cont_invalid++;}
 					return;
 				}	
-		}
-		if(cont_invalid == 0)
+
+		if(cont_invalid == 0 || nombre == NULL)
 		{printf("No se a encontrado el producto especificado."); return;}
 }
 
 /*------- 	Opción 4,5,6: Búsqueda -------*/
 void BuscarProducto(Map *tipo, Map *nombre, Map* marca, int opt)
 {
+	// Comprueba primero que los mapas no estén vacíos, de estarlos, se solicita que ingrese productos.
+	// Funciona como un pequeño lobby que deriva a las funciones según la opción elegida.
 	char prod[101];
+			if(tipo == NULL || firstMap(tipo) == NULL || marca == NULL || firstMap(tipo) == NULL
+			|| nombre == NULL)
+			{printf("No hay datos. Por favor, ingrese manualmente o cargue un archivo."); return;}
+
 	switch(opt)
 	{
-		case 4:
+		case 4: // Caso tipo
 			printf("Ingrese el producto que desea buscar por tipo: ");
 			scanf("%[0-9a-zA-Z ,-]", prod);
 			getchar();
 			BusquedaTipo(prod, tipo);
 			break;
-		case 5:
+		case 5: // Caso marca
 			printf("Ingrese el producto que desea buscar por marca: ");
 			scanf("%[0-9a-zA-Z ,-]", prod);
 			getchar();
 			BusquedaMarca(prod, marca);
 			break;
-		case 6:
+		case 6: // Caso nombre
 			printf("Ingrese el producto que desea buscar por nombre: ");
 			scanf("%[0-9a-zA-Z ,-]", prod);
 			getchar();
@@ -630,6 +637,11 @@ void BuscarProducto(Map *tipo, Map *nombre, Map* marca, int opt)
 
 /*----------------- OPCIÓN 7: Mostrar Mapa -----------------*/
 void ImprimirMapaSeleccionado(int opt, Map *name_map, Map *type_map, Map *brand_map){
+// Comprueba que los mapas no estén vacios
+		if(type_map == NULL || firstMap(type_map) == NULL || brand_map == NULL || firstMap(brand_map) == NULL
+			|| name_map == NULL)
+			{printf("\nNo hay datos. Por favor, ingrese manualmente o cargue un archivo.\n"); getchar(); return;}
+
 	printf("\n\nA continuacion se imprimiran los datos de 10 en 10 (cada 10 mostrado, presione ENTER)\n\n");
 	getchar();
 	
