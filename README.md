@@ -79,10 +79,10 @@ typedef struct {
 } Producto; // Struct que guarda los datos de un producto
 
 typedef struct {
-	Producto * comprado;
-	int cantidadComprada;
-	int precioTotal;
-} Vendido; // Struct que guarda los productos a vender, con la cantidad a vender y precio total
+	Producto * comprado; // Los datos del producto a vender
+	int cantidadComprada; // La cantidad a comprar del producto
+	int precioTotal; // Precio total de la cantidad del producto seleccionado
+} Vendido;
 
 typedef struct {
 	char *nombreCarrito;
@@ -281,9 +281,7 @@ Crea una while para recorrer el mapa con los datos, que se detendra cuando la va
 Cierra el archivo.
 }
 //-----------------------------------------//
-~~~
----
-~~~
+
 /*----------------- OPCIÓN 2: Exportar Producto -----------------*/
 void ExportarProductos(Map *name)
 {
@@ -381,7 +379,7 @@ void BusquedaTipo(char* prod, Map* tipo)
 }
 //-----------------------------------------//
 
-/*------- 	Busqueda nombre -------*/
+/*------- Busqueda nombre -------*/
 void BusquedaNombre(char* prod, Map* nombre)
 {
 	A través de la función searchmap busca la posición donde se encuentra 
@@ -389,7 +387,7 @@ void BusquedaNombre(char* prod, Map* nombre)
         y la posición que entrega no estén vacíos. Si logra ingresar, imprime solo si las coincidencias
         son del 100%, si no, avisa al operador que el producto buscado no existe.
 
-/*------- 	Busqueda marca -------*/
+/*------- Busqueda marca -------*/
 void BusquedaMarca(char* prod, Map* marca)
 {
 	Utilizando SearchMap, la función localiza la posición donde debería estar la lista que deseamos recorrer ( en este caso la lista de marcas)
@@ -398,7 +396,7 @@ void BusquedaMarca(char* prod, Map* marca)
 	
 }
 
-/*------- 	Opciòn 4,5,6: Busqueda -------*/
+/*------- Opción 4,5,6: Busqueda -------*/
 void BuscarProducto(Map *tipo, Map *nombre, Map* marca, int opt)
 {
 	Es similar a un "lobby", donde según los criterios ingresados a la función ingresa a los distintos casos posibles. Cada caso
@@ -601,6 +599,7 @@ Crea un while con la condicion 'option != 12'.
  
  En caso de que el usuario no este conforme este entregara un aviso que no se guardo el producto en el almacen.
  Realiza este proceso con la función leerProducto().
+ 
 /--------------------------------------------------------------------------------------------------------------/
 
  option =  4:
@@ -637,6 +636,7 @@ Crea un while con la condicion 'option != 12'.
  Muestra el mapa Carrito.
  
  Realiza este proceso con la función mostrarCarrito().
+
 /--------------------------------------------------------------------------------------------------------------/
 
  default:
