@@ -25,8 +25,7 @@ el cambio anterior y asi.
 - ### Gerard Espinoza: 
     Pts premio/castigo: 0.
 
-    Siento que a pesar que un principio se me complicó comprender el tema de las listas enlazadas pude terminar entendiendo como funcionaban. También sentí que no hice mucho trabajo en solitario, sino que necesité ayuda para poder seguir avanzando. Así que debo de mejorar en un aspecto más individual y estudiar.
-
+    Siento que a pesar de tener ya experiencia con las funciones de búsqueda demore más de lo debido en implementar las de esta tarea, además de que en un principio no utilice las maneras más eficientes de búsqueda en las funciones por lo que tuve que rehacerlas y reeinterpretarlas.
 ### ¡Grande Huachipato!
 
 ![Grande Huachipato](https://pbs.twimg.com/profile_images/1494832822099451910/NgCFzNKt_400x400.jpg)
@@ -385,8 +384,10 @@ void BusquedaTipo(char* prod, Map* tipo)
 /*------- 	Busqueda nombre -------*/
 void BusquedaNombre(char* prod, Map* nombre)
 {
-	
-}
+	A través de la función searchmap busca la posición donde se encuentra 
+        el dato buscado, solo ingresa si el producto si el mapa donde se encuentra
+        y la posición que entrega no estén vacíos. Si logra ingresar, imprime solo si las coincidencias
+        son del 100%, si no, avisa al operador que el producto buscado no existe.
 
 /*------- 	Busqueda marca -------*/
 void BusquedaMarca(char* prod, Map* marca)
