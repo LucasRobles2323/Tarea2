@@ -45,7 +45,7 @@ Con la terminal powershell abierta se escribe lo siguiente:
 
 De esa forma se creo o modifico el ejecutable, que se ejecuta de la siguiente manera:
 
-![gcc](https://drive.google.com/uc?id=1QEmvjK3MmqGN9h4Ow203dbGWbx2zi7JZ)
+![Ejecutable](https://drive.google.com/uc?id=1QEmvjK3MmqGN9h4Ow203dbGWbx2zi7JZ)
 
 Despues de una advertencia al ejecutar el Test, se desplegaria el menu
 
