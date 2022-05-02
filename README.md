@@ -603,13 +603,22 @@ Crea un while con la condicion 'option != 12'.
 /--------------------------------------------------------------------------------------------------------------/
 
  option =  4:
+ Hace un llamado a la función BusquedaProducto, la cual la ingresa a un "lobby" en el cual, según la opción escogida
+ hará distintas acciones, en este caso el lobby derivará a esta opción a la fución BúsquedaTipo.
+  BusquedaProducto()
  
 /--------------------------------------------------------------------------------------------------------------/
 
  option =  5:
+ Hace un llamado a la función BusquedaProducto, la cual la ingresa a un "lobby" en el cual, según la opción escogida
+ hará distintas acciones, en este caso el lobby derivará a esta opción a la fución BúsquedaMarca.
+  BusquedaProducto()
 /--------------------------------------------------------------------------------------------------------------/
 
  option =  6:
+ Hace un llamado a la función BusquedaProducto, la cual ingresa a un "lobby" en el cual, según la opción escogida
+ hará distintas acciones, en este caso el lobby derivará a esta opción a la fución BúsquedaNombre.
+ BusquedaProducto()
  
 /--------------------------------------------------------------------------------------------------------------/
 
