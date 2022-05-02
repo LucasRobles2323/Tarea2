@@ -409,17 +409,10 @@ void BuscarProducto(Map *tipo, Map *nombre, Map* marca, int opt)
 ~~~
 //**************************  OPCIÓN 7  ***********************//
 
-/*------- Imprimir Producto -------*/
-void imprimirProducto(Producto* dato)
-{
-Recibe una variable tipo Producto e imprime en pantalla de forma ordenada todos los datos guardados en la variable tipo struct.
-}
-//-----------------------------------------//
-
 /*----------------- OPCIÓN 7: Mostrar Mapa -----------------*/
 void ImprimirMapaSeleccionado(int opt, Map *name_map, Map *type_map, Map *brand_map)
 {
-Funcion que imprime todos los prodictos del mapa seleccionado de acuerdo a la variable opt que recibe la funcion.
+Funcion que imprime todos los productos del mapa seleccionado de acuerdo a la variable opt que recibe la funcion.
     -Si opt = 1, mostrara los productos por nombre.
     -Si opt = 2, mostrara los productos por tipo.
     -Si opt = 3, mostrara los productos por marca.
@@ -427,7 +420,11 @@ Funcion que imprime todos los prodictos del mapa seleccionado de acuerdo a la va
 
 void ImprimirMapa(int opt, Map *nameMap, Map *typeMap, Map *brandMap)
 {
-Funcion que nos pide de que forma mostrar el mapa y utiliza la funcion ImprimirMapaSeleccionado() para mostrarlo en pantalla de la forma que el usuario escogio.
+Funcion que recibe 3 mapas distintos con los mismos productos guardados.
+
+Crea un if que, en caso de que no haya productos guardados, imprimira un mensaje para que antes de usar esta opcion, guarden productos y termina la funcion
+
+Nos pide de que forma mostrar el mapa y utiliza la funcion ImprimirMapaSeleccionado() para mostrarlo en pantalla de la forma que el usuario escogio.
 }
 //-------------------------------------------------------------//
 

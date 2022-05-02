@@ -600,9 +600,11 @@ void BuscarProducto(Map *tipo, Map *nombre, Map* marca, int opt)
 	// Comprueba primero que los mapas no estén vacíos, de estarlos, se solicita que ingrese productos.
 	// Funciona como un pequeño lobby que deriva a las funciones según la opción elegida.
 	char prod[101];
-			if(tipo == NULL || firstMap(tipo) == NULL || marca == NULL || firstMap(tipo) == NULL
-			|| nombre == NULL)
-			{printf("No hay datos. Por favor, ingrese manualmente o cargue un archivo."); return;}
+	if(nombre == NULL || firstMap(nombre) == NULL)
+	{
+		printf("No hay datos. Por favor, ingrese manualmente o cargue un archivo."); 
+		return;
+	}
 
 	switch(opt)
 	{
@@ -637,11 +639,6 @@ void BuscarProducto(Map *tipo, Map *nombre, Map* marca, int opt)
 
 /*----------------- OPCIÓN 7: Mostrar Mapa -----------------*/
 void ImprimirMapaSeleccionado(int opt, Map *name_map, Map *type_map, Map *brand_map){
-// Comprueba que los mapas no estén vacios
-		if(type_map == NULL || firstMap(type_map) == NULL || brand_map == NULL || firstMap(brand_map) == NULL
-			|| name_map == NULL)
-			{printf("\nNo hay datos. Por favor, ingrese manualmente o cargue un archivo.\n"); getchar(); return;}
-
 	printf("\n\nA continuacion se imprimiran los datos de 10 en 10 (cada 10 mostrado, presione ENTER)\n\n");
 	getchar();
 	
@@ -717,11 +714,21 @@ void ImprimirMapaSeleccionado(int opt, Map *name_map, Map *type_map, Map *brand_
 	}
 }
 
-void ImprimirMapa(int opt, Map *nameMap, Map *typeMap, Map *brandMap){
+void ImprimirMapa(Map *nameMap, Map *typeMap, Map *brandMap){
 	// Realiza la operacion correspondiente a la opcion 7 del menu
 	// , es decir, muestra todos los productos guardados por el codigo.
 
+	// Comprueba que los mapas no estén vacios
+	if(nameMap == NULL || firstMap(nameMap) == NULL)
+	{ // Solo comprueba el name_map ya que cada mapa deberia tener los mismos productos
+		printf("\nNo hay productos. Por favor, agreguelos manualmente o cargue un archivo.\n"); 
+		getchar(); 
+		return;
+	}
+
+
 	// Nos permite seleccionar como imprimir los productos antes de imprimirlos 
+	int opt = 0;
 	while(true)
 	{
 		printf("\n\n\n1.- Imprimir por Nombre\n");
@@ -1028,7 +1035,7 @@ int main() {
 			//-----------------------------------------//
 		case 7:
 			/*------- Mostrar todos los productos -------*/
-			ImprimirMapa(0, nombre, tipo, marca);
+			ImprimirMapa(nombre, tipo, marca);
 			
 			break;
 			//-----------------------------------------//
