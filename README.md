@@ -382,10 +382,8 @@ void BusquedaTipo(char* prod, Map* tipo)
 /*------- Busqueda nombre -------*/
 void BusquedaNombre(char* prod, Map* nombre)
 {
-	A través de la función searchmap busca la posición donde se encuentra 
-        el dato buscado, solo ingresa si el producto si el mapa donde se encuentra
-        y la posición que entrega no estén vacíos. Si logra ingresar, imprime solo si las coincidencias
-        son del 100%, si no, avisa al operador que el producto buscado no existe.
+	Busca con searchmap la posición del dato deseado, si la posición retornada es nula, quiere decir que el dato no existe y por lo tanto
+	la impresión del producto en cuestión es imposible, se notifica al operador.
 
 /*------- Busqueda marca -------*/
 void BusquedaMarca(char* prod, Map* marca)
