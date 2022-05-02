@@ -514,7 +514,7 @@ void BusquedaTipo(char* prod, Map* tipo)
 				}
 			}
 		if(cont_invalid == 0){
-		if(cont == 0 || tipo == NULL){printf("No se fue posible encontrar producto/s valido/s"); return;}}
+		if(cont == 0 || tipo == NULL){printf("No se fue posible encontrar producto/s valido/s."); return;}}
 
 }
 
@@ -550,7 +550,7 @@ void BusquedaMarca(char* prod, Map* marca)
 				}
 			}
 		if(cont_invalid == 0){
-		if(cont == 0 || marca == NULL){printf("No se fue posible encontrar producto/s valido/s"); return;}}
+		if(cont == 0 || marca == NULL){printf("No se fue posible encontrar producto/s valido/s."); return;}}
 
 }
 
@@ -564,8 +564,9 @@ void BusquedaNombre(char* prod, Map* nombre)
 	prod = get_csv_field(prod, 0);
 	Producto* producto = (Producto*) searchMap(nombre, prod);
 	
-		
-				if(compare_strings(prod, producto->nombre) == 0)
+	
+		if ((producto != NULL) && (nombre != NULL)){
+				if(compare_strings(prod, producto->nombre) == 0 && producto != NULL)
 				{
 					
 					printf("Producto econtrado respecto al nombre '%s': \n \n", producto->nombre);
@@ -575,10 +576,9 @@ void BusquedaNombre(char* prod, Map* nombre)
 					 cont_invalid++;}
 					return;
 				}	
-		
-		if(cont_invalid == 0){
-		printf("No se a encontrado el producto producto especificado"); return;}
-		
+		}
+		if(cont_invalid == 0)
+		{printf("No se a encontrado el producto especificado."); return;}
 }
 
 /*------- 	Opción 4,5,6: Búsqueda -------*/
