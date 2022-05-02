@@ -14,7 +14,7 @@ typedef struct {
 	char *marca;
 	unsigned int stock;
 	unsigned int precioIndividual;
-} Producto;
+} Producto; // Struct que guarda los datos de un producto.
 
 typedef struct {
 	Producto * comprado; // Los datos del producto a vender
@@ -27,7 +27,7 @@ typedef struct {
 	List *carro;
 	int productosComprar;
 	int precioPagar;
-} Carrito;
+} Carrito; // Struct que guarda los datos de un carro de compras
 
 //------------------FUNCIONES-------------------------//
 

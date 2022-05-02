@@ -26,41 +26,33 @@ el cambio anterior y asi.
     Pts premio/castigo: 0.
 
     Siento que a pesar de tener ya experiencia con las funciones de búsqueda demore más de lo debido en implementar las de esta tarea, además de que en un principio no utilice las maneras más eficientes de búsqueda en las funciones por lo que tuve que rehacerlas y reeinterpretarlas.
+
 ### ¡Grande Huachipato!
 
 ![Grande Huachipato](https://pbs.twimg.com/profile_images/1494832822099451910/NgCFzNKt_400x400.jpg)
 
 
 ## 1. Como compilar y ejecutar la tarea:
-Abrir la carpeta en el VSCode.
+Clonar el repositorio en Desktop
 
-Abrir terminal.
+![Clonar Repositorio](https://drive.google.com/uc?id=1R42hQG_1DG673nJbgIc5LBCiScYoAu3g)
 
-Escribir lo siguiente en el terminal:
-~~~
-gcc -g main.c list.c -o Tarea1 // Para crear o sobrescribir Tarea1 con lo último guardado
-~~~
+Abrir el clon del repositorio con VSCode. Una vez abierto se debe abrir terminal powershell.
+
+Con la terminal powershell abierta se escribe lo siguiente:
+
+![gcc](https://drive.google.com/uc?id=1nEugVI19nlxOMiG2Rjv-kGEOZiIAbafy)
 
 De esa forma se creo o modifico el ejecutable, que se ejecuta de la siguiente manera:
-~~~
-./Tarea1 //Para ejecutar
-~~~
+
+![gcc](https://drive.google.com/uc?id=1QEmvjK3MmqGN9h4Ow203dbGWbx2zi7JZ)
+
+Despues de una advertencia al ejecutar el Test, se desplegaria el menu
 
 Este sería el menú.
-~~~
-    1. Importar productos
-    2. Exportar productos
-    3. Agregar producto
-    4. Buscar productos por tipo
-    5. Buscar productos por marca
-    6. Buscar producto por nombre
-    7. Mostrar todos los productos
-    8. Agregar al carrito
-    9. Eliminar del carrito
-    10. Concretar compra
-    11. Mostrar carritos de compra
-    12. Salir
-~~~
+
+![gcc](https://drive.google.com/uc?id=1OxVB_gnCHkasXMonj8im3nPW8chb5co8)
+
 
 ## 2. Las opciones que funcionan correctamente y las que no lo hacen indicando posibles causas
 Hasta ahora todas las funciones están funcionales en casos normales ósea sin que el usuario intente apretar letras al azar o colocando datos sin pensar.
@@ -69,28 +61,7 @@ Hasta ahora todas las funciones están funcionales en casos normales ósea sin q
 ## Structs:
 Contiene 2 struct, una para las canciones y otra destinada a las listas de reproducción
 
-~~~
-typedef struct {
-	char *nombre;
-	char *tipo;
-	char *marca;
-	unsigned int stock;
-	unsigned int precioIndividual;
-} Producto; // Struct que guarda los datos de un producto
-
-typedef struct {
-	Producto * comprado; // Los datos del producto a vender
-	int cantidadComprada; // La cantidad a comprar del producto
-	int precioTotal; // Precio total de la cantidad del producto seleccionado
-} Vendido;
-
-typedef struct {
-	char *nombreCarrito;
-	List *carro;
-	int productosComprar;
-	int precioPagar;
-} Carrito; // Struct que guarda los datos de un carrito de compra
-~~~
+![Menú](https://drive.google.com/uc?id=1O5O7Lz_MY8g0kLvSteIbZcGueSIJsLyr)
 
 
 ## Funciones:
