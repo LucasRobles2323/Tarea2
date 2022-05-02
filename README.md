@@ -630,15 +630,19 @@ Crea un while con la condicion 'option != 12'.
 /--------------------------------------------------------------------------------------------------------------/
 
  option =  8:
+ Llama a la función agregarProdCarrito() la cual pedirá al usuario ingresar los datos del carrito y el producto que se desea agregar al carrito.
  
 /--------------------------------------------------------------------------------------------------------------/
 
  option =  9:
- 
+ Llama a la función eliminarProdCarrito() la cual pedirá al usuario el nombre del carrito del cual se eliminará el último producto agregado
+
 /--------------------------------------------------------------------------------------------------------------/
 
  option = 10:
- 
+ Llama a la función concretarCompra() que pedirá al usuario ingresar el nombre de un carrito para que se efectúe la compra de los
+ productos que este tiene para posteriormente ser eliminado
+
 /--------------------------------------------------------------------------------------------------------------/
 
  option = 11:
